@@ -31,8 +31,7 @@ class Bone
   def <=>(boneName)
     return @name == boneName ? 0 : -1
   end
-  
-  protected
 
   attr_reader :measurements
+  attr_reader :name
 end
