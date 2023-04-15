@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "./lib/bone.rb"
+require "./lib/tfgedadosea/bone.rb"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
