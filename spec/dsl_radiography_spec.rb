@@ -10,39 +10,46 @@ RSpec.describe DSLRadiography do
   end
 
   context 'Bone creation is working as intended' do
-    it 'Fails if first argument is not a name key' do
+    it 'Fails if first argument is not the name' do
       expect { DSLRadiography.new { bone width: 3, length: 20 } }.to raise_error(ArgumentError)
     end
 
-    it 'Fails if name is not a valid string' do
-      expect { DSLRadiography.new { bone name: nil, width: 3 } }.to raise_error(ArgumentError)
-      expect { DSLRadiography.new { bone name: '', width: 3 } }.to raise_error(ArgumentError)
-      expect { DSLRadiography.new { bone name: 2, width: 3 } }.to raise_error(ArgumentError)
-      expect { DSLRadiography.new { bone name: true, width: 3 } }.to raise_error(ArgumentError)
+    it 'Fails if name is not a valid symbol' do
+      expect { DSLRadiography.new { bone nil, width: 3 } }.to raise_error(ArgumentError)
+      expect { DSLRadiography.new { bone '', width: 3 } }.to raise_error(ArgumentError)
+      expect { DSLRadiography.new { bone 'string', width: 3 } }.to raise_error(ArgumentError)
+      expect { DSLRadiography.new { bone 2, width: 3 } }.to raise_error(ArgumentError)
+      expect { DSLRadiography.new { bone true, width: 3 } }.to raise_error(ArgumentError)
+    end
+
+    it 'Fails if a measurement key is not a symbol' do
+      expect { DSLRadiography.new { bone nil, width: 4, 'not a symbol' => 2 } }.to raise_error(ArgumentError)
+      expect { DSLRadiography.new { bone nil, false => 2, length: 3 } }.to raise_error(ArgumentError)
+      expect { DSLRadiography.new { bone nil, 8 => 2 } }.to raise_error(ArgumentError)
     end
 
     it 'Fails if any measurement is not a number' do
       expect do
         DSLRadiography.new do
-          bone name: 'radius', width: nil
+          bone :radius, width: nil
         end
       end.to raise_error(ArgumentError)
 
       expect do
         DSLRadiography.new do
-          bone name: 'radius', width: 'foo'
+          bone :radius, width: 'foo'
         end
       end.to raise_error(ArgumentError)
 
       expect do
         DSLRadiography.new do
-          bone name: 'radius', width: :foo
+          bone :radius, width: :foo
         end
       end.to raise_error(ArgumentError)
 
       expect do
         DSLRadiography.new do
-          bone name: 'radius', width: false
+          bone :radius, width: false
         end
       end.to raise_error(ArgumentError)
     end
@@ -50,7 +57,7 @@ RSpec.describe DSLRadiography do
     it 'Fails no measuremets are passed' do
       expect do
         DSLRadiography.new do
-          bone name: 'radius'
+          bone :radius
         end
       end.to raise_error(ArgumentError)
     end
@@ -58,8 +65,8 @@ RSpec.describe DSLRadiography do
 
   it 'Can obtain the output radiography' do
     dsl = DSLRadiography.new do
-      bone name: 'radius', width: 3, length: 20
-      bone name: 'ulna', width: 2, length: 20
+      bone :radius, width: 3, length: 20
+      bone :ulna, width: 2, length: 20
     end
     expect(dsl.getRadiography.is_a?(Radiography)).to be true
   end
