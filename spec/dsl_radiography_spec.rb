@@ -81,6 +81,6 @@ RSpec.describe DSLRadiography do
   end
 
   it 'The radiography method can be called' do
-    expect(DSLRadiography.new.radiography.defined?).to be true
+    expect(defined? DSLRadiography.new.radiography).not_to be nil
   end
 end
