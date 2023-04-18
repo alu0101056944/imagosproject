@@ -61,6 +61,15 @@ RSpec.describe DSLRadiography do
         end
       end.to raise_error(ArgumentError)
     end
+
+    it 'Can instance from relative measurements' do
+      expect do
+        DSLRadiography.new do
+          bone :radius, width: 3, length: 20
+          bone :ulna, :relative, width: -1
+        end
+      end.not_to raise_error(ArgumentError)
+    end
   end
 
   it 'Can obtain the output radiography' do
