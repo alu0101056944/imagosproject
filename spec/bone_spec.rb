@@ -61,18 +61,18 @@ RSpec.describe Bone do
   context "Non intrinsic measurements instantiation." do
     it "Accepts both negative and positive values." do
       skull = Bone.new("skull", {width: 20, height: 35, length: 21})
-      expect { skull.instanceFromNonIntrinsic({length: -17}) }.not_to raise_error
-      expect { skull.instanceFromNonIntrinsic({length: 17}) }.not_to raise_error
+      expect { skull.instanceFromNonIntrinsic("cervical", {length: -17}) }.not_to raise_error
+      expect { skull.instanceFromNonIntrinsic("cervical", {length: 17}) }.not_to raise_error
     end
 
     it "Does not accept negative values that result in negative total." do
       ulna = Bone.new("ulna", {width: 2, length: 50})
-      expect { ulna.instanceFromNonIntrinsic({width: -3}) }.to raise_error(ArgumentError)
+      expect { ulna.instanceFromNonIntrinsic("radius", {width: -3}) }.to raise_error(ArgumentError)
     end
 
     it "Does not accept zero values." do
       humerus = Bone.new("humerus", {width: 3, length: 35})
-      expect { humerus.instanceFromNonIntrinsic({width: -3}) }.to raise_error(ArgumentError)
+      expect { humerus.instanceFromNonIntrinsic("foo", , {width: -3}) }.to raise_error(ArgumentError)
     end
   end
 end
