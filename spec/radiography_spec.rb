@@ -13,20 +13,20 @@ RSpec.describe Radiography do
     describe "addBone is working as intended." do
       it "Can add a bone." do
         radiography = Radiography.new
-        radiography.addBone("radius", false, {width: 2, height: 3})
+        radiography.addBone("radius", nil, {width: 2, height: 3})
         expect(radiography.hasBone("radius")).to be true
       end
 
       it "Cannot add duplicate bone names." do
         radiography = Radiography.new
-        radiography.addBone("radius", false, {width: 2, height: 3})
-        expect { radiography.addBone("radius", false, {width: 2, height: 3}) }.to raise_error(ArgumentError)
+        radiography.addBone("radius", nil, {width: 2, height: 3})
+        expect { radiography.addBone("radius", nil, {width: 2, height: 3}) }.to raise_error(ArgumentError)
       end
 
       it "Can add non intrinsic bone." do
         radiography = Radiography.new
-        radiography.addBone("radius", false, {width: 2, height: 3})
-        radiography.addBone("ulna", true, {width: -1})
+        radiography.addBone("radius", nil, {width: 2, height: 3})
+        radiography.addBone("radius", "ulna", {width: -1})
         expect(radiography.hasBone("ulna")).to be true
       end
     end
@@ -34,7 +34,7 @@ RSpec.describe Radiography do
     describe "getMeasurements is working as intended." do
       it "Can return measurements." do
         radiography = Radiography.new
-        radiography.addBone("radius", false, {width: 2, height: 3})
+        radiography.addBone("radius", nil, {width: 2, height: 3})
         measurements = radiography.getMeasurements("radius")
         expect(measurements).to_not be_empty
       end
@@ -48,7 +48,7 @@ RSpec.describe Radiography do
     describe "getBoneNames is working as intended." do
       it "Can return bone names." do
         radiography = Radiography.new
-        radiography.addBone("radius", false, {width: 2, height: 3})
+        radiography.addBone("radius", nil, {width: 2, height: 3})
         bone_names = radiography.getBoneNames
         expect(bone_names).to_not be_empty
       end
