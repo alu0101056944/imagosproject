@@ -7,15 +7,23 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
+    debug (1.7.2)
+      irb (>= 1.5.0)
+      reline (>= 0.3.1)
     diff-lcs (1.5.0)
     docile (1.4.0)
+    io-console (0.6.0)
+    irb (1.6.4)
+      reline (>= 0.3.0)
     json (2.6.3)
-    parallel (1.22.1)
+    parallel (1.23.0)
     parser (3.2.2.0)
       ast (~> 2.4.1)
     rainbow (3.1.1)
     rake (13.0.6)
     regexp_parser (2.8.0)
+    reline (0.3.3)
+      io-console (~> 0.5)
     rexml (3.2.5)
     rspec (3.12.0)
       rspec-core (~> 3.12.0)
@@ -55,6 +63,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  debug
   rake
   rspec
   rubocop
