@@ -1,5 +1,6 @@
 # Marcos Jesús Barrios Lorenzo
 
+# Simple container of bones.
 class Radiography
   def initialize
     @bones = []
@@ -9,8 +10,9 @@ class Radiography
   # non intrinsic instancing.
   def addBone(name, new_name, measurements)
     bone_search = @bones.select { |bone| bone == name }
-    raise ArgumentError if bone_search.any? && new_name.nil?
-    raise ArgumentError if bone_search.empty? && !new_name.nil?
+    raise ArgumentError if bone_search.any? && new_name.nil? ||
+                           bone_search.empty? && !new_name.nil?
+
     if !new_name.nil?
       @bones.push(bone_search.first.instanceFromNonIntrinsic(new_name, measurements))
     else
