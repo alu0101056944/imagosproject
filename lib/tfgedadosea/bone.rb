@@ -1,6 +1,4 @@
-=begin
-  Marcos Jesús Barrios Lorenzo
-=end
+# Marcos Jesús Barrios Lorenzo
 
 class Bone
   include Comparable
@@ -16,16 +14,16 @@ class Bone
     intersection.reduce(0) { |acc, k| acc + (@measurements[k] - other.measurements[k]).abs }
   end
 
-  def instanceFromNonIntrinsic(relativeMeasurements)
-    measurementsArray = @measurements.map do |k, v|
-                            newMeasurement = v
-                            newMeasurement += relativeMeasurements[k] if relativeMeasurements[k]
-                            raise ArgumentError if newMeasurement < 0
-                            [k, newMeasurement]
+  def instanceFromNonIntrinsic(new_name, relative_measurements)
+    new_measurements_array = @measurements.map do |k, v|
+                            new_measurement = v
+                            new_measurement += relative_measurements[k] if relative_measurements[k]
+                            raise ArgumentError if new_measurement < 0
+                            [k, new_measurement]
                           end
-    measurementsHash = measurementsArray.to_h
-    name = relativeMeasurements["name"] ? relativeMeasurements["name"] : @name
-    return Bone.new(name, measurementsHash)
+    measurements_hash = new_measurements_array.to_h
+    name = relative_measurements["name"] ? relative_measurements["name"] : @name
+    return Bone.new(new_name, measurements_hash)
   end
 
   def <=>(boneName)
