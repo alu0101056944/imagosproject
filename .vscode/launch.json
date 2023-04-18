@@ -10,7 +10,6 @@
       "request": "launch",
       "script": "${file}",
       "args": [],
-      "command": "rake",
       "askParameters": true,
       "useBundler": true
     },

@@ -6,3 +6,9 @@ Style/SymbolProc :
   Enabled: false
 Metrics/BlockLength:
   Enabled: false
+Metrics/AbcSize:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false

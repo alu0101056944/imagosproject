@@ -9,4 +9,4 @@ gem "rake"
 gem "rspec"
 gem 'simplecov', require: false, group: :test
 gem 'rubocop', require: false
-gem "debug", require: false
+gem 'debug', require: false
