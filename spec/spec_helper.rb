@@ -1,5 +1,7 @@
+require "simplecov"
+SimpleCov.start
 require "bundler/setup"
-require "./lib/tfgedadosea.rb"
+require "./lib/tfgedadosea"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
