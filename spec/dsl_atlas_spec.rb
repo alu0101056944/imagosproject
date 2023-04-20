@@ -235,9 +235,6 @@ RSpec.describe DSLAtlas do
       created_atlas = dsl_atlas.getAtlas
 
       created_atlas.setGender(:male)
-      created_atlas.setAge(12)
-      expect(created_atlas.getActiveRadiography).not_to be nil
-
       created_atlas.setAge(13)
       expect(created_atlas.getActiveRadiography).not_to be nil
 
@@ -245,6 +242,9 @@ RSpec.describe DSLAtlas do
       expect(created_atlas.getActiveRadiography).not_to be nil
 
       created_atlas.setAge(15)
+      expect(created_atlas.getActiveRadiography).not_to be nil
+
+      created_atlas.setAge(16)
       expect(created_atlas.getActiveRadiography).not_to be nil
     end
 
@@ -270,16 +270,16 @@ RSpec.describe DSLAtlas do
       created_atlas = dsl_atlas.getAtlas
 
       created_atlas.setGender(:male)
-      created_atlas.setAge(12)
-      expect(created_atlas.getActiveRadiography).not_to be nil
-
       created_atlas.setAge(13)
       expect(created_atlas.getActiveRadiography).not_to be nil
 
-      created_atlas.setAge(16)
+      created_atlas.setAge(14)
       expect(created_atlas.getActiveRadiography).not_to be nil
 
-      created_atlas.setAge(19)
+      created_atlas.setAge(17)
+      expect(created_atlas.getActiveRadiography).not_to be nil
+
+      created_atlas.setAge(20)
       expect(created_atlas.getActiveRadiography).not_to be nil
     end
 
@@ -333,9 +333,6 @@ RSpec.describe DSLAtlas do
       created_atlas = dsl_atlas.getAtlas
 
       created_atlas.setGender(:male)
-      created_atlas.setAge(12)
-      expect(created_atlas.getActiveRadiography).not_to be nil
-
       created_atlas.setAge(13)
       expect(created_atlas.getActiveRadiography).not_to be nil
 
@@ -343,6 +340,9 @@ RSpec.describe DSLAtlas do
       expect(created_atlas.getActiveRadiography).not_to be nil
 
       created_atlas.setAge(15)
+      expect(created_atlas.getActiveRadiography).not_to be nil
+
+      created_atlas.setAge(16)
       expect(created_atlas.getActiveRadiography).not_to be nil
     end
 
