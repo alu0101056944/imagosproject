@@ -3,7 +3,7 @@
 # Creates bones from measurements and includes them into the radiography
 class DSLRadiography
   def initialize(&block)
-    @radiography = Radiography.new
+    @radiography = nil
     if block_given?
       if block.arity == 1
         yield self
@@ -13,7 +13,9 @@ class DSLRadiography
     end
   end
 
-  def radiography; end
+  def radiography
+    @radiography = Radiography.new
+  end
 
   # args_array must be either [name] or [name, isRelative, referenceName]
   def bone(*args_array, **hash_measurements)
@@ -25,10 +27,9 @@ class DSLRadiography
     end
 
     case args_array.length
-    when 0 then raise ArgumentError
     when 1 then @radiography.addBone(args_array[0], nil, hash_measurements)
-    when 2 then raise ArgumentError
-    when 3..args_array.length then @radiography.addBone(args_array[2], args_array[0], hash_measurements)
+    when 3 then @radiography.addBone(args_array[2], args_array[0], hash_measurements)
+    else raise ArgumentError
     end
   end
 

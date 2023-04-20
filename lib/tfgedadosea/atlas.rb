@@ -1,35 +1,28 @@
 # Marcos Jesús Barrios Lorenzo
 
 # Contains a radiography reference for each (age, gender) tuple
-#
-# I decided that setGender() and setAge() must be called before usage.
 class Atlas
   # Justification of nil initialization on class comment
   def initialize(name)
-    raise ArgumentError unless name.is_a?(Symbol)
-
     @name = name
     @radiographies = { male: {}, female: {} }
     @active_gender = :male
     @active_age = 15
-    @active_radiography = nil
   end
 
   def setGender(gender)
     raise ArgumentError unless gender.is_a?(Symbol)
 
     @active_gender = gender
-    @active_radiography = @radiographies[@active_gender][@active_age]
   end
 
-  def setAge(age)
+  def setAge(age, relative: false)
     raise ArgumentError unless age.is_a?(Numeric)
 
-    @active_age = age
-    @active_radiography = @radiographies[@active_gender][@active_age]
+    @active_age = relative ? @active_age + age : age
   end
 
-  def addRadiography(radiography, age, gender)
+  def addRadiography(radiography, age = @active_age, gender = @active_gender)
     raise ArgumentError unless radiography.is_a?(Radiography) &&
                                age.is_a?(Numeric) &&
                                gender.is_a?(Symbol)
@@ -55,6 +48,8 @@ class Atlas
   end
 
   def getActiveRadiography
-    @active_radiography
+    @radiographies[@active_gender][@active_age]
   end
+
+  attr_writer :name
 end

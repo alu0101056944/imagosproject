@@ -24,4 +24,22 @@ Commas could be removed later, but for now they are staying.
 
 ## Variable length argument array before variable length argument hash
 
-Bone of <code>DSLRadiography</code> now has as first parameter a variable length array so that it can accept a <code>:relative</code> keyword which instructs <code>DSLRadiography</code> to instance a relative bone and not an intrinsic bone.
+Bone of <code>DSLRadiography</code> now has as first parameter a variable length array so that it can accept a <code>:relative</code> or <code>relativeTo</code> keyword which instructs <code>DSLRadiography</code> to instance a relative bone and not an intrinsic bone.
+
+## Information delay for object creation
+
+Because the syntax is flexible, sometimes an incomplete instance needs to be created, so that it becomes complete slowly as the script advances, until a certain end point is reached where the context ends and it needs to be completed. This means that setters need to be made and constructors do not require all the information.
+
+Thats why some classes like atlas got setters that were not in the initial class diagram.
+
+## age Increments method 
+
+Atlas needs to provide a way to increment the active age. Original design didnt have it. A relative flag was added to setAge.
+
+## addRadiography of Atlas
+
+Because active age and active gender is not know at dsl level, changed them to optional parameters.
+
+## Atlas @activeRadiography
+
+It is not needed because the active radiography can be obtained from the active age and gender and there is no need to keep a reference on the atlas class.
