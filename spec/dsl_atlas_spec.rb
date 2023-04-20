@@ -105,7 +105,7 @@ RSpec.describe DSLAtlas do
           atlas :create, name: :gp
         end
       TEXT
-      File.open('atlas/gp_created_by_spec_for_testing.atl', 'w') { |f| f.write(atlas_gp_string) }
+      File.open('atlas/gp_created_by_spec_for_testing.rb', 'w') { |f| f.write(atlas_gp_string) }
       dsl_atlas = DSLAtlas.new do
         atlas name: :gp
       end
@@ -118,11 +118,37 @@ RSpec.describe DSLAtlas do
           atlas :create, name: :othername
         end
       TEXT
-      File.open('atlas/gp_created_by_spec_for_testing.atl', 'w') { |f| f.write(atlas_gp_string) }
+      File.open('atlas/gp_created_by_spec_for_testing.rb', 'w') { |f| f.write(atlas_gp_string) }
       dsl_atlas = DSLAtlas.new do
         atlas name: :gp
       end
       expect(dsl_atlas.getAtlas).not_to be nil
+    end
+  end
+
+  context 'Atlas radiography creation testing' do
+    it 'Must be called inside the atlas creation process' do
+      expect do
+        DSLAtlas.new do
+          radiography
+        end
+      end.to raise_error(ArgumentError)
+
+      expect do
+        DSLAtlas.new do
+          radiography
+          atlas
+          create atlas: :gp
+        end
+      end.to raise_error(ArgumentError)
+
+      expect do
+        DSLAtlas.new do
+          atlas
+          create atlas: :gp
+          radiography
+        end
+      end.to raise_error(ArgumentError)
     end
   end
 
