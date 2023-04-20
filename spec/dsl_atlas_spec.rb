@@ -45,7 +45,7 @@ RSpec.describe DSLAtlas do
       expect(form2.getAtlas.getActiveRadiography.getBoneNames).not_to be nil
 
       form3 = DSLAtlas.new do
-        atlas :create, name:gp
+        atlas :create, name: :gp
 
         genre :female
         age 4
@@ -82,7 +82,7 @@ RSpec.describe DSLAtlas do
         bone :carpal,     width: 3, height: 3
         bone :metacarpal, width: 2, length: 7
 
-        create atlas: foo
+        create atlas: :foo
       end
       expect(dsl_atlas.getAtlas).not_to be nil
 
@@ -107,7 +107,7 @@ RSpec.describe DSLAtlas do
       TEXT
       File.open('atlas/gp_created_by_spec_for_testing.rb', 'w') { |f| f.write(atlas_gp_string) }
       dsl_atlas = DSLAtlas.new do
-        atlas name: :gp
+        atlas name: :gp_created_by_spec_for_testing
       end
       expect(dsl_atlas.getAtlas).not_to be nil
     end
@@ -120,7 +120,7 @@ RSpec.describe DSLAtlas do
       TEXT
       File.open('atlas/gp_created_by_spec_for_testing.rb', 'w') { |f| f.write(atlas_gp_string) }
       dsl_atlas = DSLAtlas.new do
-        atlas name: :gp
+        atlas name: :gp_created_by_spec_for_testing
       end
       expect(dsl_atlas.getAtlas).not_to be nil
     end
