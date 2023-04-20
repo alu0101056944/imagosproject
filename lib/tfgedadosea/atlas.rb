@@ -1,8 +1,6 @@
 # Marcos Jesús Barrios Lorenzo
 
 # Contains a radiography reference for each (age, gender) tuple
-#
-# I decided that setGender() and setAge() must be called before usage.
 class Atlas
   # Justification of nil initialization on class comment
   def initialize(name)
@@ -57,4 +55,6 @@ class Atlas
   def getActiveRadiography
     @active_radiography
   end
+
+  attr_writer :name
 end
