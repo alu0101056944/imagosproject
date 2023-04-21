@@ -1,17 +1,17 @@
-RSpec.describe DSLAtlas do
+RSpec.describe DSLComparison do
   context 'Attributes testing.' do
-    it 'DSLAtlas class exists.' do
-      expect(defined? DSLAtlas).not_to be nil
+    it 'DSLComparison class exists.' do
+      expect(defined? DSLComparison).not_to be nil
     end
 
-    it 'A DSLAtlas class can be instanced.' do
-      expect(DSLAtlas.new).not_to be nil
+    it 'A DSLComparison class can be instanced.' do
+      expect(DSLComparison.new).not_to be nil
     end
   end
 
   context 'Can create a new atlas.' do
     it 'Different syntax can be used.' do
-      form1 = DSLAtlas.new do
+      form1 = DSLComparison.new do
         atlas
 
         genre :female
@@ -27,7 +27,7 @@ RSpec.describe DSLAtlas do
       expect(form1.getAtlas).not_to be nil
       expect(form1.getAtlas.getActiveRadiography.getBoneNames).not_to be nil
 
-      form2 = DSLAtlas.new do
+      form2 = DSLComparison.new do
         atlas
         name :gp
 
@@ -44,7 +44,7 @@ RSpec.describe DSLAtlas do
       expect(form2.getAtlas).not_to be nil
       expect(form2.getAtlas.getActiveRadiography.getBoneNames).not_to be nil
 
-      form3 = DSLAtlas.new do
+      form3 = DSLComparison.new do
         atlas :create, name: :gp
 
         genre :female
@@ -58,7 +58,7 @@ RSpec.describe DSLAtlas do
       expect(form3.getAtlas).not_to be nil
       expect(form3.getAtlas.getActiveRadiography.getBoneNames).not_to be nil
 
-      form4 = DSLAtlas.new do
+      form4 = DSLComparison.new do
         atlas :create
         genre :female
         age 4
@@ -75,7 +75,7 @@ RSpec.describe DSLAtlas do
     end
 
     it 'More than one atlas can be created but only the last one counts.' do
-      dsl_atlas = DSLAtlas.new do
+      dsl_atlas = DSLComparison.new do
         atlas
 
         genre :male
@@ -116,12 +116,12 @@ RSpec.describe DSLAtlas do
   context 'Atlas loading.' do
     it 'Can load an atlas from the atlas directory.' do
       atlas_gp_string = <<~TEXT
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas :create, name: :gp
         end
       TEXT
       File.open('atlas/gp_created_by_spec_for_testing.rb', 'w') { |f| f.write(atlas_gp_string) }
-      dsl_atlas = DSLAtlas.new do
+      dsl_atlas = DSLComparison.new do
         atlas name: :gp_created_by_spec_for_testing
       end
       expect(dsl_atlas.getAtlas).not_to be nil
@@ -129,12 +129,12 @@ RSpec.describe DSLAtlas do
 
     it 'Error loading if no atlas in directory atlas/ has that name.' do
       atlas_gp_string = <<~TEXT
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas :create, name: :othername
         end
       TEXT
       File.open('atlas/gp_created_by_spec_for_testing.rb', 'w') { |f| f.write(atlas_gp_string) }
-      dsl_atlas = DSLAtlas.new do
+      dsl_atlas = DSLComparison.new do
         atlas name: :gp_created_by_spec_for_testing
       end
       expect(dsl_atlas.getAtlas).not_to be nil
@@ -144,13 +144,13 @@ RSpec.describe DSLAtlas do
   context 'Atlas radiography creation testing.' do
     it 'Must be called inside the atlas creation process.' do
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           radiography
         end
       end.to raise_error(ArgumentError)
 
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           radiography
           atlas
           create atlas: :gp
@@ -158,7 +158,7 @@ RSpec.describe DSLAtlas do
       end.to raise_error(ArgumentError)
 
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
           create atlas: :gp
           radiography
@@ -170,7 +170,7 @@ RSpec.describe DSLAtlas do
   context 'Atlas radiography classification testing.' do
     it 'Can specify genre and/or age on the atlas call.' do
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas genre: :male, age: 5
           radiography
           create atlas: :gp
@@ -178,7 +178,7 @@ RSpec.describe DSLAtlas do
       end.not_to raise_error(ArgumentError)
 
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas age: 5
           genre :male
           radiography
@@ -187,7 +187,7 @@ RSpec.describe DSLAtlas do
       end.not_to raise_error(ArgumentError)
 
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas genre: :male
           age 5
           radiography
@@ -198,14 +198,14 @@ RSpec.describe DSLAtlas do
 
     it 'Must specify genre and age at least once before defining an atlas radiography.' do
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
           radiography
           create atlas: :gp
         end
       end.to raise_error(ArgumentError)
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
           radiography
           bone :ulna,                         width: 3, height: 20
@@ -215,7 +215,7 @@ RSpec.describe DSLAtlas do
     end
 
     it 'Can use genre and/or age to change the new classification.' do
-      dsl_atlas = DSLAtlas.new do
+      dsl_atlas = DSLComparison.new do
         atlas
         age 12 # initial
         genre :male # initial
@@ -260,7 +260,7 @@ RSpec.describe DSLAtlas do
     it 'ageIncrements setting implicitly changes the settings correcly.' do
       # see if two consecutive radiographies change the age according
       # to the ageIncrements specified quantity
-      dsl_atlas = DSLAtlas.new do
+      dsl_atlas = DSLComparison.new do
         atlas
         age 12 # initial
         genre :male # initial
@@ -292,7 +292,7 @@ RSpec.describe DSLAtlas do
     end
 
     it 'ageIncrements can be called multiple times and it works correctly.' do
-      dsl_atlas = DSLAtlas.new do
+      dsl_atlas = DSLComparison.new do
         atlas
         age 12 # initial
         genre :male # initial
@@ -328,7 +328,7 @@ RSpec.describe DSLAtlas do
 
     it 'Cannot use age, genre, ageIncrements out of atlas context' do
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
           create atlas: :gp
           age 12
@@ -336,7 +336,7 @@ RSpec.describe DSLAtlas do
       end.to raise_error(ArgumentError)
 
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
           create atlas: :gp
           genre :male
@@ -344,7 +344,7 @@ RSpec.describe DSLAtlas do
       end.to raise_error(ArgumentError)
 
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
           create atlas: :gp
           ageIncrements 2
@@ -356,7 +356,7 @@ RSpec.describe DSLAtlas do
   context 'Radiography syntax testing.' do
     it 'add is optional.' do
       # add can be added or not, behavior is the same.
-      dsl_atlas = DSLAtlas.new do
+      dsl_atlas = DSLComparison.new do
         atlas
         age 12 # initial
         genre :male # initial
@@ -391,7 +391,7 @@ RSpec.describe DSLAtlas do
 
     it 'Cannot call add without first calling radiography.' do
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
 
           add
@@ -403,7 +403,7 @@ RSpec.describe DSLAtlas do
 
     it 'Cannot define bones after add has been called.' do
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
 
           radiography
@@ -418,7 +418,7 @@ RSpec.describe DSLAtlas do
 
     it 'Must call radiography at least once before calling bone.' do
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
 
           bone :ulna, width: 3, height: 20
@@ -432,7 +432,7 @@ RSpec.describe DSLAtlas do
   context 'Atlas creation failure syntax.' do
     it 'Cannot call create without first calling atlas creation start syntax.' do
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           # atlas
           # name :gp
           create
@@ -440,7 +440,7 @@ RSpec.describe DSLAtlas do
       end.to raise_error(ArgumentError)
 
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           # atlas
           create atlas: :gp
         end
@@ -449,7 +449,7 @@ RSpec.describe DSLAtlas do
 
     it 'Throws error on sequence of create was called.' do
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
           create atlas: :gp
           create atlas: :gp
@@ -457,7 +457,7 @@ RSpec.describe DSLAtlas do
       end.to raise_error(ArgumentError)
 
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
           name :gp
           create
@@ -466,7 +466,7 @@ RSpec.describe DSLAtlas do
       end.to raise_error(ArgumentError)
 
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           create
           create
         end
@@ -479,13 +479,13 @@ RSpec.describe DSLAtlas do
       # With atlas (...) name: <atlas name here> (...) create
       # do not have the end create atlas
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
         end
       end.to raise_error(ArgumentError)
 
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
           name :gp
         end
@@ -494,7 +494,7 @@ RSpec.describe DSLAtlas do
 
     it 'An atlas name must be given somehow.' do
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
           create
         end
@@ -503,21 +503,21 @@ RSpec.describe DSLAtlas do
 
     it 'Cannot create a new atlas if the previous definition has not concluded.' do
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
           atlas
         end
       end.to raise_error(ArgumentError)
 
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas :create, name: :gp
           atlas :create, name: :gp
         end
       end.to raise_error(ArgumentError)
 
       expect do
-        DSLAtlas.new do
+        DSLComparison.new do
           atlas
           name :gp
           create
