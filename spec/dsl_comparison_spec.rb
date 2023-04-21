@@ -228,7 +228,7 @@ RSpec.describe DSLComparison do
       expect do
         DSLComparison.new do
           comparisons
-          atlas # error
+          atlas :create, name: :foo # error
         end
       end.to raise_error(ArgumentError)
 
@@ -238,13 +238,16 @@ RSpec.describe DSLComparison do
           bone # error
         end
       end.to raise_error(ArgumentError)
+    end
 
+    it 'show ends comparisons context' do
       expect do
         DSLComparison.new do
           comparisons
-          loadAtlas # error
+          show
+          radiography
         end
-      end.to raise_error(ArgumentError)
+      end.not_to raise_error(ArgumentError)
     end
 
     it 'decide is optional unless doing bone level comparisons' do
