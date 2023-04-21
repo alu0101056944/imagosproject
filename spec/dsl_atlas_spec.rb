@@ -57,6 +57,21 @@ RSpec.describe DSLAtlas do
       end
       expect(form3.getAtlas).not_to be nil
       expect(form3.getAtlas.getActiveRadiography.getBoneNames).not_to be nil
+
+      form4 = DSLAtlas.new do
+        atlas :create
+        genre :female
+        age 4
+
+        radiography
+        bone :ulna,                         width: 3, height: 20
+        bone :radius, :relativeTo, :ulna,     width: 1
+        bone :humerus, :relativeTo, :radius,  width: 1, height: -4
+
+        name :gp # can be at any position
+      end
+      expect(form4.getAtlas).not_to be nil
+      expect(form4.getAtlas.getActiveRadiography.getBoneNames).not_to be nil
     end
 
     it 'More than one atlas can be created but only the last one counts.' do
@@ -153,6 +168,34 @@ RSpec.describe DSLAtlas do
   end
 
   context 'Atlas radiography classification testing.' do
+    it 'Can specify genre and/or age on the atlas call.' do
+      expect do
+        DSLAtlas.new do
+          atlas genre: :male, age: 5
+          radiography
+          create atlas: :gp
+        end
+      end.not_to raise_error(ArgumentError)
+
+      expect do
+        DSLAtlas.new do
+          atlas age: 5
+          genre :male
+          radiography
+          create atlas: :gp
+        end
+      end.not_to raise_error(ArgumentError)
+
+      expect do
+        DSLAtlas.new do
+          atlas genre: :male
+          age 5
+          radiography
+          create atlas: :gp
+        end
+      end.not_to raise_error(ArgumentError)
+    end
+
     it 'Must specify genre and age at least once before defining an atlas radiography.' do
       expect do
         DSLAtlas.new do

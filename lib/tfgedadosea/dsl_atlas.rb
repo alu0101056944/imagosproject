@@ -45,17 +45,14 @@ class DSLAtlas
 
     if !args_array.include?(:create) && args_hash[:name]
       loadAtlas(args_hash[:name])
-    elsif args_array.include?(:create) && args_hash[:name]
+    else
       @atlas = Atlas.new(args_hash[:name])
 
       @context_flags[:atlas] = true
-      @context_flags[:create] = true
-      @context_flags[:name] = true
-    else
-      @atlas = Atlas.new(nil)
-
-      @context_flags[:atlas] = true
-      @context_flags[:create] = false
+      @context_flags[:create] = args_array.include?(:create)
+      @context_flags[:name] = true if args_hash[:name]
+      @context_flags[:age] = true if args_hash[:age]
+      @context_flags[:genre] = true if args_hash[:genre]
     end
   end
 
@@ -101,6 +98,7 @@ class DSLAtlas
     @context_flags[:atlas] = false
     @context_flags[:genre] = false
     @context_flags[:age] = false
+    @context_flags[:name] = false
   end
 
   def age(numeric)
@@ -146,7 +144,7 @@ class DSLAtlas
     file_content_dump = Marshal.dump(file_content)
     dsl_atlas_string = Marshal.load(file_content_dump)
     dsl_atlas = nil
-    eval('dsl_atlas = ' + dsl_atlas_string)
+    eval("dsl_atlas = #{dsl_atlas_string}")
     @atlas = dsl_atlas.getAtlas
   end
 
