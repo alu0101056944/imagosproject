@@ -9,7 +9,7 @@ RSpec.describe DSLComparison do
     end
   end
 
-  context 'Can compare radiography with different syntaxis.' do
+  context 'Syntax testing.' do
     it 'Can compare at bone level.' do
       $print_result = ''
       def print(string_to_print)
@@ -60,7 +60,7 @@ RSpec.describe DSLComparison do
 
         show
       end
-      expect($print_result).to be 8
+      expect($print_result).to eql '8'
     end
 
     it 'Can compare at radiography level' do
@@ -107,7 +107,7 @@ RSpec.describe DSLComparison do
 
         show
       end
-      expect($print_result).to be 8
+      expect($print_result).to eql '8'
     end
 
     it 'Can compare all' do
@@ -155,7 +155,98 @@ RSpec.describe DSLComparison do
     end
   end
 
-  context 'Comparison syntax testing' do
+  context 'Incorrect syntax testing.' do
+    it 'Must have a radiography and an atlas loaded.' do
+      $print_result = ''
+      def print(string_to_print)
+        $print_result = string_to_print
+      end
+
+      create_atlas_string = <<~TEXT
+        DSLAtlas.new do
+          atlas :create, name: :atlas_generated_for_dsl_comparison_spec
+          genre :male
+
+          age: 8
+          radiography
+          bone :ulna, length: 24
+
+          age: 9
+          radiography
+          bone :ulna, length: 28
+        end
+      TEXT
+      File.open('atlas/atlas_generated_for_dsl_comparison_spec.rb', 'w') do |f|
+        f.write(create_atlas_string)
+      end
+
+      expect do
+        DSLComparison.new do
+          # load atlas
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :female
+
+          # No radiography loaded
+
+          comparisons
+
+          age 8
+          compare :radiographies
+
+          age 9
+          compare :radiographies # optional parameter
+          show
+        end
+      end.to raise_error(ArgumentError)
+
+      expect do
+        DSLComparison.new do
+          radiography # error; cannot set a radiography inside comparisons context
+          bone :ulna, length: 24
+
+          # no atlas loaded
+
+          comparisons
+
+          age 8
+          compare :radiographies
+
+          age 9
+          compare :radiographies # optional parameter
+          show
+        end
+      end.to raise_error(ArgumentError)
+    end
+
+    it 'Cannot call non compare commands inside comparisons' do
+      expect do
+        DSLComparison.new do
+          comparisons
+          radiography # error
+        end
+      end.to raise_error(ArgumentError)
+
+      expect do
+        DSLComparison.new do
+          comparisons
+          atlas # error
+        end
+      end.to raise_error(ArgumentError)
+
+      expect do
+        DSLComparison.new do
+          comparisons
+          bone # error
+        end
+      end.to raise_error(ArgumentError)
+
+      expect do
+        DSLComparison.new do
+          comparisons
+          loadAtlas # error
+        end
+      end.to raise_error(ArgumentError)
+    end
+
     it 'decide is optional unless doing bone level comparisons' do
       $print_result = ''
       def print(string_to_print)
@@ -343,14 +434,14 @@ RSpec.describe DSLComparison do
         compare :all
         show
       end
-      expect($print_result).to be 8
+      expect($print_result).to eql '8'
     end
   end
 
   # old navigation with age and genre is the same as with atlas spec and thus tested
   # with the dsl atlas spec context for dsl comparison in the
   # spec/dsl_comparison_spec_atlas_context.rb file
-  context 'Active radiographies to be compared new navigation testing.' do
+  context 'Navigation testing.' do
     it 'continue jumps to the next age inside the genre.' do
       $print_result = ''
       def print(string_to_print)
@@ -389,7 +480,7 @@ RSpec.describe DSLComparison do
 
         show
       end
-      expect($print_result).to be 8
+      expect($print_result).to eql '8'
 
       DSLComparison.new do
         # set target radiography
@@ -405,7 +496,7 @@ RSpec.describe DSLComparison do
 
         show
       end
-      expect($print_result).to be 8
+      expect($print_result).to eql '8'
     end
   end
 end
