@@ -50,9 +50,21 @@ class DSLAtlas
 
       @context_flags[:atlas] = true
       @context_flags[:create] = args_array.include?(:create)
-      @context_flags[:name] = true if args_hash[:name]
-      @context_flags[:age] = true if args_hash[:age]
-      @context_flags[:genre] = true if args_hash[:genre]
+
+      if args_hash[:name]
+        @atlas.name = args_hash[:name]
+        @context_flags[:name] = true
+      end
+
+      if args_hash[:age]
+        @atlas.setAge(args_hash[:age])
+        @context_flags[:age] = true
+      end
+
+      if args_hash[:genre]
+        @atlas.setGender(args_hash[:genre])
+        @context_flags[:genre] = true
+      end
     end
   end
 
