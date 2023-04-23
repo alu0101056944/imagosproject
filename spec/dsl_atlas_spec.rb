@@ -325,32 +325,6 @@ RSpec.describe DSLAtlas do
       created_atlas.setAge(20)
       expect(created_atlas.getActiveRadiography).not_to be nil
     end
-
-    it 'Cannot use age, genre, ageIncrements out of atlas context' do
-      expect do
-        DSLAtlas.new do
-          atlas
-          create atlas: :gp
-          age 12
-        end
-      end.to raise_error(ArgumentError)
-
-      expect do
-        DSLAtlas.new do
-          atlas
-          create atlas: :gp
-          genre :male
-        end
-      end.to raise_error(ArgumentError)
-
-      expect do
-        DSLAtlas.new do
-          atlas
-          create atlas: :gp
-          ageIncrements 2
-        end
-      end.to raise_error(ArgumentError)
-    end
   end
 
   context 'Radiography syntax testing.' do

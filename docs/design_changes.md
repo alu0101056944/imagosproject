@@ -6,6 +6,8 @@ The initial design can change with the new information gained during the process
 
 instanceFromNonIntrinsic() needs to get the name of the new bone, otherwise a duplicate will be generated, and thats illegal. addBone() has to receive the new name too.
 
+## Radiography getBoneMeasurements now returns the hash with the measurements in full and not just the name.
+
 ## Commas between key-values 
 
 On the images shown in the original work, it is shown an expression like the following:
@@ -43,3 +45,19 @@ Because active age and active gender is not know at dsl level, changed them to o
 ## Atlas @activeRadiography
 
 It is not needed because the active radiography can be obtained from the active age and gender and there is no need to keep a reference on the atlas class.
+
+## Composition on DSLComparison
+
+DSLComparison now uses a DSLAtlas and a DSLRadiography to avoid duplication and to reduce spec files.
+
+## DSLComparison loadAtlas method no longer needed
+
+## DSLComparison now has <code>name</code> method. It is necessary for compatibility with DSLAtlas but it was not reflected on the initial design.
+
+## DSLComparison now has <code>add</code> method. It is necessary for compatibility with DSLAtlas but it was not reflected on the initial design.
+
+## DSLComparison does not need to implement the loadAtlas method, because it simply calls the equivalent DSAtlas method when in it's context
+
+## DSLComparison no longer uses comparison related class, but the task itself of comparison is given to the Atlas class.
+
+## Atlas now provides a next method and a reset method to allow dsl comparisons to move from one atlas radiography to the next.

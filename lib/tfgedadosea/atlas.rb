@@ -56,15 +56,25 @@ class Atlas
     @checked_radiographies[gender][age] = false
   end
 
+  # Meant for "compare :all" to get the final bone age of the target radiography
   def getBoneAge(radiography)
-    names = radiography.getBoneNames
-    measurements = radiography.getMeasurements
-
-    @radiographies.each_value do |ages_hash|
+    @least_difference = nil
+    @best_age = nil
+    @radiographies.each do |genre, ages_hash|
       ages_hash.each do |age, rad|
-        return age if rad.names == names && rad.measurements == measurements
+        difference = AtlasRadiography.new(radiography).differenceScore(
+          rad
+        )
+
+        if @least_difference.nil? || difference < @least_difference
+          @least_difference = difference
+          @best_age = age
+        end
+
+        @checked_radiographies[genre][age] = true
       end
     end
+    @best_age
   end
 
   # Not attr_reader because UML specification for the initial design is like this

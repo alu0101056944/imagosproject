@@ -16,11 +16,11 @@ RSpec.describe DSLComparison do
           atlas :create, name: :atlas_generated_for_dsl_comparison_spec
           genre :male
 
-          age: 8
+          age 8
           radiography
           bone :ulna, length: 24
 
-          age: 9
+          age 9
           radiography
           bone :ulna, length: 28
         end
@@ -36,7 +36,7 @@ RSpec.describe DSLComparison do
           bone :ulna, length: 24
 
           # load atlas
-          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :female
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :male, age: 8
 
           comparisons
           # alternative 1: compare individual bones, navigate by age
@@ -59,11 +59,11 @@ RSpec.describe DSLComparison do
           atlas :create, name: :atlas_generated_for_dsl_comparison_spec
           genre :male
 
-          age: 8
+          age 8
           radiography
           bone :ulna, length: 24
 
-          age: 9
+          age 9
           radiography
           bone :ulna, length: 28
         end
@@ -79,7 +79,7 @@ RSpec.describe DSLComparison do
           bone :ulna, length: 24
 
           # load atlas
-          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :female
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :male, age: 8
 
           comparisons
           # alternative 1: compare individual bones, navigate by age
@@ -102,11 +102,11 @@ RSpec.describe DSLComparison do
           atlas :create, name: :atlas_generated_for_dsl_comparison_spec
           genre :male
 
-          age: 8
+          age 8
           radiography
           bone :ulna, length: 24
 
-          age: 9
+          age 9
           radiography
           bone :ulna, length: 28
         end
@@ -122,13 +122,55 @@ RSpec.describe DSLComparison do
           bone :ulna, length: 24
 
           # load atlas
-          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :female
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :male, age: 8
 
           comparisons
           compare :all
           show
         end
       end.to output(/8/).to_stdout
+    end
+
+    it 'Can compare multiple times' do
+      create_atlas_string = <<~TEXT
+        DSLAtlas.new do
+          atlas :create, name: :atlas_generated_for_dsl_comparison_spec
+          genre :male
+
+          age 8
+          radiography
+          bone :ulna, length: 24
+
+          age 9
+          radiography
+          bone :ulna, length: 28
+        end
+      TEXT
+      File.open('atlas/atlas_generated_for_dsl_comparison_spec.rb', 'w') do |f|
+        f.write(create_atlas_string)
+      end
+
+      expect do
+        DSLComparison.new do
+          # set target radiography
+          radiography
+          bone :ulna, length: 24
+
+          # load atlas
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :male, age: 8
+
+          comparisons
+          compare :all
+          show
+
+          radiography
+          bone :ulna, length: 28
+
+          comparisons
+          compare :all
+          show
+        end
+      end.to output(/8(.)*9/).to_stdout
     end
   end
 
@@ -139,11 +181,11 @@ RSpec.describe DSLComparison do
           atlas :create, name: :atlas_generated_for_dsl_comparison_spec
           genre :male
 
-          age: 8
+          age 8
           radiography
           bone :ulna, length: 24
 
-          age: 9
+          age 9
           radiography
           bone :ulna, length: 28
         end
@@ -155,7 +197,7 @@ RSpec.describe DSLComparison do
       expect do
         DSLComparison.new do
           # load atlas
-          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :female
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :male, age: 8
 
           # No radiography loaded
 
@@ -215,6 +257,8 @@ RSpec.describe DSLComparison do
     it 'show ends comparisons context' do
       expect do
         DSLComparison.new do
+          radiography
+          atlas
           comparisons
           show
           radiography
@@ -222,17 +266,17 @@ RSpec.describe DSLComparison do
       end.not_to raise_error(ArgumentError)
     end
 
-    it 'decide is optional unless doing bone level comparisons' do
+    it 'decide is optional' do
       create_atlas_string = <<~TEXT
         DSLAtlas.new do
           atlas :create, name: :atlas_generated_for_dsl_comparison_spec
           genre :male
 
-          age: 8
+          age 8
           radiography
           bone :ulna, length: 24
 
-          age: 9
+          age 9
           radiography
           bone :ulna, length: 28
         end
@@ -248,7 +292,7 @@ RSpec.describe DSLComparison do
           bone :ulna, length: 24
 
           # load atlas
-          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :female
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :male, age: 8
 
           comparisons
           age 8
@@ -259,40 +303,6 @@ RSpec.describe DSLComparison do
           show
         end
       end.not_to raise_error(ArgumentError)
-
-      DSLComparison.new do
-        # set target radiography
-        radiography
-        bone :ulna, length: 24
-
-        # load atlas
-        atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :female
-
-        comparisons
-        age 8
-        compare :ulna
-
-        age 9
-        compare :ulna
-        decide
-
-        show
-      end.to raise_error(ArgumentError)
-
-      DSLComparison.new do
-        # set target radiography
-        radiography
-        bone :ulna, length: 24
-
-        # load atlas
-        atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :female
-
-        comparisons
-        age 8
-        compare :ulna
-
-        show
-      end.to raise_error(ArgumentError)
     end
 
     it 'show needs to always be called.' do
@@ -303,7 +313,7 @@ RSpec.describe DSLComparison do
           bone :ulna, length: 24
 
           # load atlas
-          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :female
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :male, age: 8
 
           comparisons
           compare :all
@@ -317,7 +327,7 @@ RSpec.describe DSLComparison do
           bone :ulna, length: 24
 
           # load atlas
-          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :female
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :male, age: 8
 
           comparisons
           age 8
@@ -337,7 +347,7 @@ RSpec.describe DSLComparison do
           bone :ulna, length: 24
 
           # load atlas
-          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :female
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :male, age: 8
 
           comparisons
           # alternative 1: compare individual bones, navigate by age
@@ -352,17 +362,17 @@ RSpec.describe DSLComparison do
       end.to raise_error(ArgumentError)
     end
 
-    it 'Must compare all bones before calling decide' do
+    it 'Must compare all bones when doing bone level comparison.' do
       create_atlas_string = <<~TEXT
         DSLAtlas.new do
           atlas :create, name: :atlas_generated_for_dsl_comparison_spec
           genre :male
 
-          age: 8
+          age 8
           radiography
           bone :ulna, length: 24
 
-          age: 9
+          age 9
           radiography
           bone :ulna, length: 28
         end
@@ -376,17 +386,56 @@ RSpec.describe DSLComparison do
           # set target radiography
           radiography
           bone :ulna, length: 24
+          bone :radius, length: 23
 
           # load atlas
-          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :female
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :male, age: 8
 
           comparisons
-          # alternative 1: compare individual bones, navigate by age
-          age 8
-          decide
+          compare :ulna
+          decide # error, incomplete bone comparison
+
           show
         end
-      end.to raise_error(ArgumentError)
+      end.to raise_error(MissingBoneComparisons)
+
+      expect do
+        DSLComparison.new do
+          # set target radiography
+          radiography
+          bone :ulna, length: 24
+          bone :radius, length: 23
+
+          # load atlas
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :male, age: 8
+
+          comparisons
+          compare :ulna
+
+          continue
+          compare :radiographies # error, previous comparison incomplete
+          show
+        end
+      end.to raise_error(MissingBoneComparisons)
+
+      expect do
+        DSLComparison.new do
+          # set target radiography
+          radiography
+          bone :ulna, length: 24
+          bone :radius, length: 23
+
+          # load atlas
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :male, age: 8
+
+          comparisons
+          compare :ulna
+
+          continue
+          compare :all # error, previous comparison incomplete
+          show
+        end
+      end.to raise_error(MissingBoneComparisons)
     end
   end
 
@@ -399,11 +448,11 @@ RSpec.describe DSLComparison do
           atlas :create, name: :atlas_generated_for_dsl_comparison_spec
           genre :male
 
-          age: 8
+          age 8
           radiography
           bone :ulna, length: 24
 
-          age: 9
+          age 9
           radiography
           bone :ulna, length: 28
         end
@@ -417,14 +466,14 @@ RSpec.describe DSLComparison do
           # set target radiography
           radiography
           bone :ulna, length: 24
- 
+
           # load atlas
-          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :female
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :male, age: 8
 
           comparisons
-          compare :radiography
+          compare :radiographies
           continue
-          compare :radiography
+          compare :radiographies
 
           show
         end
@@ -437,12 +486,12 @@ RSpec.describe DSLComparison do
           bone :ulna, length: 24
 
           # load atlas
-          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :female
+          atlas name: :atlas_generated_for_dsl_comparison_spec, genre: :male, age: 8
 
           comparisons
-          compare :radiography
+          compare :radiographies
           nextReference
-          compare :radiography
+          compare :radiographies
 
           show
         end

@@ -47,24 +47,23 @@ class DSLAtlas
       loadAtlas(args_hash[:name])
     else
       @atlas = Atlas.new(args_hash[:name])
-
-      @context_flags[:atlas] = true
+      
       @context_flags[:create] = args_array.include?(:create)
+      @context_flags[:atlas] = true
 
       if args_hash[:name]
         @atlas.name = args_hash[:name]
         @context_flags[:name] = true
       end
+    end
+    if args_hash[:age]
+      @atlas.setAge(args_hash[:age])
+      @context_flags[:age] = true
+    end
 
-      if args_hash[:age]
-        @atlas.setAge(args_hash[:age])
-        @context_flags[:age] = true
-      end
-
-      if args_hash[:genre]
-        @atlas.setGender(args_hash[:genre])
-        @context_flags[:genre] = true
-      end
+    if args_hash[:genre]
+      @atlas.setGender(args_hash[:genre])
+      @context_flags[:genre] = true
     end
   end
 
@@ -113,8 +112,16 @@ class DSLAtlas
     @context_flags[:name] = false
   end
 
+  def genre(new_genre)
+    raise ArgumentError if @atlas.nil?
+
+    @atlas.setGender(new_genre)
+
+    @context_flags[:genre] = true
+  end
+
   def age(numeric)
-    raise ArgumentError unless @context_flags[:atlas]
+    raise ArgumentError if @atlas.nil?
 
     @atlas.setAge(numeric)
     @age_increments = 0
@@ -122,22 +129,14 @@ class DSLAtlas
     @context_flags[:age] = true
   end
 
-  def genre(new_genre)
-    raise ArgumentError unless @context_flags[:atlas]
-
-    @atlas.setGender(new_genre)
-
-    @context_flags[:genre] = true
-  end
-
   def ageIncrements(age_increments)
-    raise ArgumentError unless @context_flags[:atlas]
+    raise ArgumentError if @atlas.nil?
 
     @age_increments = age_increments
   end
 
   def name(new_name)
-    raise ArgumentError unless @context_flags[:atlas]
+    raise ArgumentError if @atlas.nil?
 
     @atlas.name = new_name
 
@@ -148,6 +147,10 @@ class DSLAtlas
     @atlas
   end
 
+  def getRadiography
+    @created_radiography
+  end
+
   private
 
   # May have security risks
@@ -156,7 +159,7 @@ class DSLAtlas
     file_content_dump = Marshal.dump(file_content)
     dsl_atlas_string = Marshal.load(file_content_dump)
     dsl_atlas = nil
-    eval("dsl_atlas = #{dsl_atlas_string}")
+    binding.eval("dsl_atlas = #{dsl_atlas_string}")
     @atlas = dsl_atlas.getAtlas
   end
 
