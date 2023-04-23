@@ -170,7 +170,7 @@ RSpec.describe DSLComparison do
           compare :all
           show
         end
-      end.to output(/8(.)*9/).to_stdout
+      end.to output(/8(.|\n)*9/).to_stdout
     end
   end
 

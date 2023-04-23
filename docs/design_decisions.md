@@ -25,3 +25,13 @@ show
 ```
 
 ## Decide needs to be called to conclude bone level comparison
+
+## Context switches on DSLBoneAge
+
+A variable keeps track of current context and there are specific method calls that change that context. When a context is entered, it gets or sets the required information. Rest of the methods just call one method or another depending on the context.
+
+All contexts have a begin and end, but DSLAtlas has a special case where <code>atlas :create (...)</code> is called, in which case the context stays the same as long as no other context change method is called.
+
+This has consecuencies for radiography method call, which would stay as DSL Atlas's call as long as no create or other context change method; radiography is context change method unless in dsl atlas context.
+
+Nil context can take place, which is the global context.

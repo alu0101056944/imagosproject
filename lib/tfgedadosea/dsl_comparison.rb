@@ -191,12 +191,20 @@ class DSLComparison
     raise ArgumentError unless @current_context == 'dsl_comparisons'
     raise ComparisonsPendingError unless @atlas.checkedAll
 
-    print(@best_bone_age || 'No comparisons have been done.')
+    puts("Bone age using atlas: #{@best_bone_age}" || 'No comparisons have been done.')
     @context_flags[:comparisons] = false
   end
 
   def setAtlas(new_atlas)
+    @context_flags[:atlas_active] = true
+    @context_flags[:age] = true
+    @context_flags[:genre] = true
     @atlas = new_atlas
+  end
+
+  def setRadiography(new_radiography)
+    @context_flags[:radiography_active] = true
+    @radiography = new_radiography
   end
 
   private
