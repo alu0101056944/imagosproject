@@ -47,7 +47,7 @@ class DSLAtlas
       loadAtlas(args_hash[:name])
     else
       @atlas = Atlas.new(args_hash[:name])
-      
+
       @context_flags[:create] = args_array.include?(:create)
       @context_flags[:atlas] = true
 

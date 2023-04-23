@@ -14,6 +14,9 @@ require 'tfgedadosea/error/different_measurements_error'
 require 'tfgedadosea/error/missing_bone_comparisons'
 require 'tfgedadosea/error/duplicated_radiography_error'
 require 'tfgedadosea/error/comparisons_pending_error'
+require 'tfgedadosea/error/missing_bone_categorizations'
+require 'tfgedadosea/region_of_interest'
+require 'tfgedadosea/dsl_scoring_system'
 
 # Entry point for the gem
 module TFGEdadOsea

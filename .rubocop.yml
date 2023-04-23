@@ -1,3 +1,5 @@
+AllCops:
+  TargetRubyVersion: 3.0
 Style/FrozenStringLiteralComment:
   Enabled: false
 Naming/MethodName:
