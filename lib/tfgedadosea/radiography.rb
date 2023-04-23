@@ -4,6 +4,7 @@
 class Radiography
   def initialize
     @bones = []
+    @observer_name = nil
   end
 
   # if new_name is nil then instance from scratch. Otherwise it is
@@ -32,4 +33,6 @@ class Radiography
   def getBoneNames
     @bones.map { |bone| bone.name }
   end
+
+  attr_accessor :observer_name
 end
