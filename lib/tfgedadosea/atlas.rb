@@ -6,6 +6,7 @@ class Atlas
   def initialize(name)
     @name = name
     @radiographies = { male: {}, female: {} }
+    @checked_radiographies = { male: {}, female: {} }
     @active_gender = :male
     @active_age = 15
   end
@@ -28,13 +29,13 @@ class Atlas
     @radiographies[@active_gender] = @radiographies[@active_gender].sort.to_h
 
     # find current, then step once and update active age
-    @found_current = false
-    @radiographies[@active_gender].each do |k, _|
-      if k == @active_age
-        @found_current = true
+    found_current = false
+    @radiographies[@active_gender].each_key do |age|
+      if age == @active_age
+        found_current = true
 
         # warn if current is last
-        if k == @radiographies[@active_gender].keys.last
+        if age == @radiographies[@active_gender].keys.last
           print 'Warning: \'next\' call when already at last atlas radiography.'
         end
         next
@@ -42,18 +43,17 @@ class Atlas
 
       # this is executed after current age has been found
       if found_current
-        @active_age = k # set next age as active
+        @active_age = age # set next age as active
         break
       end
     end
   end
 
   def addRadiography(radiography, age = @active_age, gender = @active_gender)
-    raise ArgumentError unless radiography.is_a?(Radiography) &&
-                               age.is_a?(Numeric) &&
-                               gender.is_a?(Symbol)
+    raise DuplicatedRadiographyError unless @radiographies[gender][age].nil?
 
     @radiographies[gender][age] = radiography
+    @checked_radiographies[gender][age] = false
   end
 
   def getBoneAge(radiography)
@@ -75,6 +75,23 @@ class Atlas
 
   def getActiveRadiography
     @radiographies[@active_gender][@active_age]
+  end
+
+  def check
+    @checked_radiographies[@active_gender][@active_age] = true
+  end
+
+  # keep the false values, if empty then yes, have checked all
+  def checkedAll
+    @checked_radiographies[@active_gender].values.reject { |flag| flag }.empty?
+  end
+
+  # for when I want to reset the checkedAll
+  # ideally when a new target radiography is set
+  def reset
+    @checked_radiographies.each do |_, genre_hash|
+      genre_hash.each { |age, _| genre_hash[age] = false }
+    end
   end
 
   attr_writer :name
