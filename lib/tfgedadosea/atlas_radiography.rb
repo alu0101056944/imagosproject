@@ -1,11 +1,15 @@
 # Marcos Jesús Barrios Lorenzo
 
 # Contains the algorithm for getting the difference between two radiographies.
+#
+# This is used on DSLComparison on the compare method to calculate the difference
+# and update the best difference if it proceeds.
 class AtlasRadiography
   def initialize(radiography)
     @radiography = radiography
   end
 
+  # calculate full difference between two radiographies
   def differenceScore(other_radiography)
     difference = 0
     @radiography.getBoneNames.each do |name|
@@ -19,6 +23,7 @@ class AtlasRadiography
     difference
   end
 
+  # calculate difference between two bones
   def difference(bone_name, other_radiography)
     other = other_radiography.getMeasurements(bone_name)
     this = @radiography.getMeasurements(bone_name)
