@@ -500,4 +500,22 @@ RSpec.describe DSLAtlas do
       end.to raise_error(ArgumentError)
     end
   end
+
+  context 'Observer testing.' do
+    it 'Can specify the observer of a radiography.' do
+      expect do
+        DSLAtlas.new do
+          atlas :create, name: :gp
+
+          genre :female
+          age 4
+
+          radiography name: 'Antonio' # new feature, naming radiographies with the observer's name
+          bone :ulna,                         width: 3, height: 20
+          bone :radius, :relativeTo, :ulna,     width: 1
+          bone :humerus, :relativeTo, :radius,  width: 1, height: -4
+        end
+      end.not_to raise_error(ArgumentError)
+    end
+  end
 end

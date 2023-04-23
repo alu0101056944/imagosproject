@@ -13,8 +13,9 @@ class DSLRadiography
     end
   end
 
-  def radiography
+  def radiography(**hash_args)
     @radiography = Radiography.new
+    @radiography.observer_name = hash_args[:name]
   end
 
   # args_array must be either [name] or [name, isRelative, referenceName]

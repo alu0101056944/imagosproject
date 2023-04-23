@@ -75,4 +75,17 @@ RSpec.describe Bone do
       expect { humerus.instanceFromNonIntrinsic('foo', { width: -3 }) }.to raise_error(ArgumentError)
     end
   end
+
+  context 'Observer testing.' do
+    it 'nil by default' do
+      humerus = Bone.new('humerus', { width: 3, length: 35 })
+      expect(humerus.observer_name).to be nil
+    end
+
+    it 'Observer can be set.' do
+      humerus = Bone.new('humerus', { width: 3, length: 35 })
+      humerus.observer_name = 'Marcos'
+      expect(humerus.observer_name).to eql 'Marcos'
+    end
+  end
 end

@@ -9,6 +9,24 @@ RSpec.describe DSLRadiography do
     end
   end
 
+  context 'Observer testing.' do
+    it 'Can specify who is the observer' do
+      expect do
+        DSLRadiography.new do
+          radiography name: 'Marcos'
+          bone :ulna, width: 3, length: 20
+        end
+      end.not_to raise_error(ArgumentError)
+
+      expect do
+        DSLRadiography.new do
+          radiography name: :marcos
+          bone :ulna, width: 3, length: 20
+        end
+      end.not_to raise_error(ArgumentError)
+    end
+  end
+
   context 'Bone creation is working as intended.' do
     it 'Fails if first argument is not the name.' do
       expect do
@@ -54,7 +72,6 @@ RSpec.describe DSLRadiography do
           bone true, width: 3
         end
       end.to raise_error(ArgumentError)
-
     end
 
     it 'Fails if a measurement key is not a symbol.' do

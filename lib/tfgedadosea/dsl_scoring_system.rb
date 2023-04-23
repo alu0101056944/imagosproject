@@ -73,7 +73,7 @@ class DSLScoringSystem
   def show
     raise ArgumentError unless @current_context == 'dslScoringSystem'
 
-    puts "Bone age by scoring system: #{@bone_age}"
+    puts("#{@radiography.observer_name}'s radiography is of bone age #{@bone_age}.")
     @current_context = nil
     @context_flags[:scoringSystem] = false
   end

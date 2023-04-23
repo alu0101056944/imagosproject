@@ -8,6 +8,7 @@ class Bone
     @name = name
     @measurements = measurements
     measurements.each { |_, v| raise ArgumentError if v <= 0 }
+    @observer_name = nil
   end
 
   def distanceFrom(other)
@@ -32,4 +33,5 @@ class Bone
   end
 
   attr_reader :measurements, :name
+  attr_accessor :observer_name
 end

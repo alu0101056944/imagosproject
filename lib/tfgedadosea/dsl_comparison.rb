@@ -191,7 +191,8 @@ class DSLComparison
     raise ArgumentError unless @current_context == 'dsl_comparisons'
     raise ComparisonsPendingError unless @atlas.checkedAll
 
-    puts("Bone age using atlas: #{@best_bone_age}" || 'No comparisons have been done.')
+    puts("#{@radiography.observer_name}'s radiography is of bone age #{@best_bone_age}." ||
+         'No comparisons have been done.')
     @context_flags[:comparisons] = false
   end
 

@@ -67,12 +67,13 @@ class DSLAtlas
     end
   end
 
-  def radiography(*_, **_)
+  def radiography(*_, **args_hash)
     raise ArgumentError unless @context_flags[:atlas] &&
                                @context_flags[:genre] &&
                                @context_flags[:age]
 
     @created_radiography = Radiography.new
+    @created_radiography.observer_name = args_hash[:name]
     @atlas.setAge(@age_increments, relative: true)
     @atlas.addRadiography(@created_radiography)
 

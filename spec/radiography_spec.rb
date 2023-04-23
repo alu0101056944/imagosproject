@@ -54,4 +54,19 @@ RSpec.describe Radiography do
       end
     end
   end
+
+  context 'Observer testing.' do
+    it 'nil by default' do
+      radiography = Radiography.new
+      radiography.addBone('radius', nil, { width: 2, height: 3 })
+      expect(radiography.observer_name).to be nil
+    end
+
+    it 'Observer can be set.' do
+      radiography = Radiography.new
+      radiography.addBone('radius', nil, { width: 2, height: 3 })
+      radiography.observer_name = 'Marcos'
+      expect(radiography.observer_name).to eql 'Marcos'
+    end
+  end
 end
