@@ -63,4 +63,96 @@ RSpec.describe Atlas do
       expect { atlas.setGender(true) }.to raise_error(ArgumentError)
     end
   end
+
+  context 'next method testing.' do
+    it 'Method \'next\' working as intended.' do
+      atlas = Atlas.new(nil)
+      atlas.setAge(17)
+      atlas.setGender(:male)
+
+      radiography1 = Radiography.new
+      radiography1.addBone('radius', nil, { length: 20, width: 4 })
+      atlas.addRadiography(radiography1)
+
+      atlas.setAge(18)
+      radiography2 = Radiography.new
+      radiography2.addBone('ulna', nil, { length: 21, width: 4 })
+      atlas.addRadiography(radiography2)
+
+      atlas.next
+      # if next has not changed active age then it would try to add a radiography
+      # on an already assigned (age, genre) pair
+      expect(atlas.getActiveRadiography.getBoneNames.include?('ulna')).to be true
+    end
+
+    it 'next stays on the last if needed and warns about it.' do
+      atlas = Atlas.new(nil)
+      atlas.setAge(17)
+      atlas.setGender(:male)
+
+      radiography1 = Radiography.new
+      radiography1.addBone('radius', nil, { length: 20, width: 4 })
+      atlas.addRadiography(radiography1)
+
+      expect { atlas.next }.to output(/Warning:/).to_stdout
+    end
+  end
+
+  context 'Checking if all radiographies have been compared.' do
+    it 'check works.' do
+      atlas = Atlas.new(nil)
+      atlas.setAge(17)
+      atlas.setGender(:male)
+
+      radiography1 = Radiography.new
+      radiography1.addBone('radius', nil, { length: 20, width: 4 })
+      atlas.addRadiography(radiography1)
+      atlas.check
+      expect(atlas.checkedAll).to be true
+    end
+
+    it 'checkAll works.' do
+      atlas = Atlas.new(nil)
+      atlas.setAge(17)
+      atlas.setGender(:male)
+
+      radiography1 = Radiography.new
+      radiography1.addBone('radius', nil, { length: 20, width: 4 })
+      atlas.addRadiography(radiography1)
+      atlas.check
+
+      atlas.setAge(18)
+      radiography2 = Radiography.new
+      radiography2.addBone('radius', nil, { length: 21, width: 4 })
+      atlas.addRadiography(radiography2)
+
+      expect(atlas.checkedAll).to be false
+
+      atlas.check
+      expect(atlas.checkedAll).to be true
+    end
+
+    it 'reset works.' do
+      atlas = Atlas.new(nil)
+      atlas.setAge(17)
+      atlas.setGender(:male)
+
+      radiography1 = Radiography.new
+      radiography1.addBone('radius', nil, { length: 20, width: 4 })
+      atlas.addRadiography(radiography1)
+      atlas.check
+
+      atlas.setAge(18)
+      radiography2 = Radiography.new
+      radiography2.addBone('radius', nil, { length: 21, width: 4 })
+      atlas.addRadiography(radiography2)
+
+      expect(atlas.checkedAll).to be false
+
+      atlas.reset
+
+      atlas.check
+      expect(atlas.checkedAll).to be false
+    end
+  end
 end

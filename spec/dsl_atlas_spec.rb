@@ -57,6 +57,21 @@ RSpec.describe DSLAtlas do
       end
       expect(form3.getAtlas).not_to be nil
       expect(form3.getAtlas.getActiveRadiography.getBoneNames).not_to be nil
+
+      form4 = DSLAtlas.new do
+        atlas :create
+        genre :female
+        age 4
+
+        radiography
+        bone :ulna,                         width: 3, height: 20
+        bone :radius, :relativeTo, :ulna,     width: 1
+        bone :humerus, :relativeTo, :radius,  width: 1, height: -4
+
+        name :gp # can be at any position
+      end
+      expect(form4.getAtlas).not_to be nil
+      expect(form4.getAtlas.getActiveRadiography.getBoneNames).not_to be nil
     end
 
     it 'More than one atlas can be created but only the last one counts.' do
@@ -98,8 +113,8 @@ RSpec.describe DSLAtlas do
     end
   end
 
-  context 'Atlas loading' do
-    it 'Can load an atlas from the atlas directory' do
+  context 'Atlas loading.' do
+    it 'Can load an atlas from the atlas directory.' do
       atlas_gp_string = <<~TEXT
         DSLAtlas.new do
           atlas :create, name: :gp
@@ -112,7 +127,7 @@ RSpec.describe DSLAtlas do
       expect(dsl_atlas.getAtlas).not_to be nil
     end
 
-    it 'Error loading if no atlas in directory atlas/ has that name' do
+    it 'Error loading if no atlas in directory atlas/ has that name.' do
       atlas_gp_string = <<~TEXT
         DSLAtlas.new do
           atlas :create, name: :othername
@@ -126,8 +141,8 @@ RSpec.describe DSLAtlas do
     end
   end
 
-  context 'Atlas radiography creation testing' do
-    it 'Must be called inside the atlas creation process' do
+  context 'Atlas radiography creation testing.' do
+    it 'Must be called inside the atlas creation process.' do
       expect do
         DSLAtlas.new do
           radiography
@@ -153,6 +168,34 @@ RSpec.describe DSLAtlas do
   end
 
   context 'Atlas radiography classification testing.' do
+    it 'Can specify genre and/or age on the atlas call.' do
+      expect do
+        DSLAtlas.new do
+          atlas genre: :male, age: 5
+          radiography
+          create atlas: :gp
+        end
+      end.not_to raise_error(ArgumentError)
+
+      expect do
+        DSLAtlas.new do
+          atlas age: 5
+          genre :male
+          radiography
+          create atlas: :gp
+        end
+      end.not_to raise_error(ArgumentError)
+
+      expect do
+        DSLAtlas.new do
+          atlas genre: :male
+          age 5
+          radiography
+          create atlas: :gp
+        end
+      end.not_to raise_error(ArgumentError)
+    end
+
     it 'Must specify genre and age at least once before defining an atlas radiography.' do
       expect do
         DSLAtlas.new do
@@ -281,32 +324,6 @@ RSpec.describe DSLAtlas do
 
       created_atlas.setAge(20)
       expect(created_atlas.getActiveRadiography).not_to be nil
-    end
-
-    it 'Cannot use age, genre, ageIncrements out of atlas context' do
-      expect do
-        DSLAtlas.new do
-          atlas
-          create atlas: :gp
-          age 12
-        end
-      end.to raise_error(ArgumentError)
-
-      expect do
-        DSLAtlas.new do
-          atlas
-          create atlas: :gp
-          genre :male
-        end
-      end.to raise_error(ArgumentError)
-
-      expect do
-        DSLAtlas.new do
-          atlas
-          create atlas: :gp
-          ageIncrements 2
-        end
-      end.to raise_error(ArgumentError)
     end
   end
 
