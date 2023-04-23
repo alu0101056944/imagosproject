@@ -22,12 +22,12 @@ class DSLBoneAge
   end
 
   # Context change method
-  def radiography
+  def radiography(*args_array, **args_hash)
     if @current_context == 'dsl_atlas'
       @dsl_atlas.radiography
     else
       @current_context = 'dsl_radiography'
-      @dsl_radiography.radiography
+      @dsl_radiography.radiography(*args_array, **args_hash)
       @radiography = @dsl_radiography.getRadiography
       @dsl_comparisons.setRadiography(@radiography)
     end
@@ -178,7 +178,7 @@ class DSLBoneAge
   end
 
   def roi(*args_array, **args_hash)
-    if @current_context = 'dsl_scoring_system'
+    if @current_context == 'dsl_scoring_system'
       @dsl_scoring_system.roi(*args_array, **args_hash)
     else
       raise OutOfContextError
