@@ -63,4 +63,35 @@ RSpec.describe Atlas do
       expect { atlas.setGender(true) }.to raise_error(ArgumentError)
     end
   end
+
+  context 'next method testing' do
+    it 'Method \'next\' working as intended.' do
+      atlas = Atlas.new(nil)
+      atlas.setAge(17)
+      atlas.setGender(:male)
+
+      radiography1 = Radiography.new
+      radiography1.addBone('radius', nil, { length: 20, width: 4 })
+      atlas.addRadiography(radiography1)
+
+      atlas.next
+      radiography2 = Radiography.new
+      radiography2.addBone('radius', nil, { length: 21, width: 4 })
+      # if next has not changed active age then it would try to add a radiography
+      # on an already assigned (age, genre) pair
+      expect { atlas.addRadiography(radiography2) }.not_to raise_error(DuplicatedRadiographyError)
+    end
+
+    it 'next stays on the last if needed and warns about it' do
+      atlas = Atlas.new(nil)
+      atlas.setAge(17)
+      atlas.setGender(:male)
+
+      radiography1 = Radiography.new
+      radiography1.addBone('radius', nil, { length: 20, width: 4 })
+      atlas.addRadiography(radiography1)
+
+      expect { atlas.next }.to output(/Warning:/).to_stdout
+    end
+  end
 end

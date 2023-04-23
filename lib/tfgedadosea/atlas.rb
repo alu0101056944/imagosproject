@@ -22,6 +22,32 @@ class Atlas
     @active_age = relative ? @active_age + age : age
   end
 
+  # set next age as active
+  def next
+    # the age hash must be sorted for this method to work
+    @radiographies[@active_gender] = @radiographies[@active_gender].sort.to_h
+
+    # find current, then step once and update active age
+    @found_current = false
+    @radiographies[@active_gender].each do |k, _|
+      if k == @active_age
+        @found_current = true
+
+        # warn if current is last
+        if k == @radiographies[@active_gender].keys.last
+          print 'Warning: \'next\' call when already at last atlas radiography.'
+        end
+        next
+      end
+
+      # this is executed after current age has been found
+      if found_current
+        @active_age = k # set next age as active
+        break
+      end
+    end
+  end
+
   def addRadiography(radiography, age = @active_age, gender = @active_gender)
     raise ArgumentError unless radiography.is_a?(Radiography) &&
                                age.is_a?(Numeric) &&
