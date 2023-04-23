@@ -61,3 +61,9 @@ DSLComparison now uses a DSLAtlas and a DSLRadiography to avoid duplication and 
 ## DSLComparison no longer uses comparison related class, but the task itself of comparison is given to the Atlas class.
 
 ## Atlas now provides a next method and a reset method to allow dsl comparisons to move from one atlas radiography to the next.
+
+## DSLScoreSystem now uses DSLRadiography composition to avoid duplication.
+
+## Scrapped TWScoreSystem and RegionOfInterest classes, not needed due to low complexity of the DSLScoringSystem class.
+
+## In roi() of DSLScoreSystem, score must come last.
