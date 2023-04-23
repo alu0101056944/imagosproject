@@ -43,6 +43,7 @@ RSpec.describe DSLBoneAge do
           show
 
           scoringSystem
+
           roi 'A', :radius, score: 5
           roi 'B', :ulna, score: 3
           mean

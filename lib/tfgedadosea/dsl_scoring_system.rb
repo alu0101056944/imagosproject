@@ -31,7 +31,6 @@ class DSLScoringSystem
     raise ArgumentError if @context_flags[:scoringSystem]
     raise ArgumentError unless @context_flags[:radiography_active]
 
-    @radiography = @dsl_radiography.getRadiography
     @current_context = 'dslScoringSystem'
     @context_flags[:scoringSystem] = true
   end
@@ -83,6 +82,7 @@ class DSLScoringSystem
     @current_context = 'dsl_radiography'
     @context_flags[:radiography_active] = true
     @dsl_radiography.radiography
+    @radiography = @dsl_radiography.getRadiography
   end
 
   def bone(*args_array, **args_hash)
@@ -93,6 +93,7 @@ class DSLScoringSystem
 
   def setRadiography(radiography)
     @radiography = radiography
+    @context_flags[:radiography_active] = true
   end
 
   private

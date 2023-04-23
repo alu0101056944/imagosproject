@@ -15,8 +15,10 @@ require 'tfgedadosea/error/missing_bone_comparisons'
 require 'tfgedadosea/error/duplicated_radiography_error'
 require 'tfgedadosea/error/comparisons_pending_error'
 require 'tfgedadosea/error/missing_bone_categorizations'
+require 'tfgedadosea/error/out_of_context_error'
 require 'tfgedadosea/region_of_interest'
 require 'tfgedadosea/dsl_scoring_system'
+require 'tfgedadosea/dsl_bone_age'
 
 # Entry point for the gem
 module TFGEdadOsea
