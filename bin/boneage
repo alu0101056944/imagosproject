@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'thor'
+
+require_relative '../lib/tfgedadosea'
+
+# Using thor package to create a proper CLI program
+class BoneAgeCLI < Thor
+  package_name 'BoneAge'
+
+  # commands
+  desc 'execute PATH', 'execute a DSL file at PAth'
+
+  # command implementation with it's parameters
+  def execute(path)
+    require(path)
+  end
+
+  # required for the operating system to exit when something goes wrong.
+  def self.exit_on_failure?
+    true
+  end
+end
+
+BoneAgeCLI.start(ARGV)
