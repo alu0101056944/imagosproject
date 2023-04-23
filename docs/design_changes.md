@@ -67,3 +67,5 @@ DSLComparison now uses a DSLAtlas and a DSLRadiography to avoid duplication and 
 ## Scrapped TWScoreSystem and RegionOfInterest classes, not needed due to low complexity of the DSLScoringSystem class.
 
 ## In roi() of DSLScoreSystem, score must come last.
+
+## Atlas comparison class not used, so it was deleted.

@@ -23,7 +23,10 @@ class Atlas
     @active_age = relative ? @active_age + age : age
   end
 
-  # set next age as active
+  # Needed to be able to support "continue" and "nextReference" operations
+  # on DSLComparison. Original design did not have this.
+  #
+  # Set next age as active
   def next
     # the age hash must be sorted for this method to work
     @radiographies[@active_gender] = @radiographies[@active_gender].sort.to_h
@@ -49,6 +52,10 @@ class Atlas
     end
   end
 
+  # DSLAtlas uses this to create the atlas.
+  #
+  # Note: The age and gender parameters are used only during spec testing, it is
+  # not necessary, but I keep it just in cases I need it.
   def addRadiography(radiography, age = @active_age, gender = @active_gender)
     raise DuplicatedRadiographyError unless @radiographies[gender][age].nil?
 
@@ -87,17 +94,22 @@ class Atlas
     @radiographies[@active_gender][@active_age]
   end
 
+  # To know if all radiographies have been compared or not in DSLComparison.
+  # I call this whenever a "compare :radiographies" takes place.
   def check
     @checked_radiographies[@active_gender][@active_age] = true
   end
 
-  # keep the false values, if empty then yes, have checked all
+  # I call this when show() of DSLComparisons by design decision, since
+  # allowing comparison of just a few radiographies would get confusing.
+  #
+  # Check if there are "false" values on @checked_radiographies.
   def checkedAll
     @checked_radiographies[@active_gender].values.reject { |flag| flag }.empty?
   end
 
-  # for when I want to reset the checkedAll
-  # ideally when a new target radiography is set
+  # When a new comparisons context is called, this is also called to
+  # be able to count the amount of checked radiographies again.
   def reset
     @checked_radiographies.each do |_, genre_hash|
       genre_hash.each { |age, _| genre_hash[age] = false }

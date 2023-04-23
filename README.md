@@ -24,8 +24,14 @@ or use the [bin/setup](bin/setup) executable:
 
 ## Usage
 
-Use the [bin/setup](bin/setup) executable:
+Use the [bin/setup](bin/setup) executable, pass as parameter the path to the DSL file to be executed:
 
 ```console
 ./bin/boneage execute ./examples/basic_example.rb 
+```
+
+```console
+usuario@ubuntu ~/ruby/tfgedadosea (dev) $ ./bin/boneage execute 
+ERROR: "boneage execute" was called with no arguments
+Usage: "boneage execute PATH"
 ```

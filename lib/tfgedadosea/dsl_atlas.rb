@@ -1,18 +1,20 @@
 # Marcos Jesús Barrios Lorenzo
 
-# I decided that setGender() and setAge() must be called before usage.
+# I decided that setGender() and setAge() must be called before adding
+# any radiography, because the radiography is categorized as (gender, age).
 #
 # Atlas load:
-# With atlas name:<atlas name here>
+# With "atlas name:<atlas name here>""
 #
 # Atlas creation:
-# With atlas (...) create atlas:<atlas name here>
-# With atlas (...) name: <atlas name here> (...) create
-# With atlas :create name:<atlas name here>
+# With "atlas (...) create atlas:<atlas name here>"
+# With "atlas (...) name: <atlas name here> (...) create"
+# With "atlas :create name:<atlas name here>""
 #
-# To keep the context, there are flags for each possible type of context inside
-# the dsl. When a method is called, it must check if it was called in the right
-# context. Before exit, it must leave the right flags on.
+# To keep track of which methods have been called I use flags.
+# There are flags for each possible method callinside  the dsl.
+# When a method is called, it must check if it was called in the right
+# context. Before exit it must leave the right flags on.
 #
 class DSLAtlas
   def initialize(&block)
@@ -25,8 +27,8 @@ class DSLAtlas
       radiography: false,
       add: false,
       name: false,
-      genre: false,
-      age: false
+      genre: false, # radiography requires genre and age to be selected
+      age: false    # so that the atlas knows where to store the radiography
     }
 
     if block_given?
@@ -40,8 +42,10 @@ class DSLAtlas
     checkFlagBalance
   end
 
+  # load atlas or create atlas.
+  # Also set active age and genre if those flags were passed as parameter.
   def atlas(*args_array, **args_hash)
-    raise ArgumentError if @context_flags[:atlas]
+    raise ArgumentError if @context_flags[:atlas] # Because I dont want "atlas()atlas()" calls
 
     if !args_array.include?(:create) && args_hash[:name]
       loadAtlas(args_hash[:name])
@@ -56,11 +60,11 @@ class DSLAtlas
         @context_flags[:name] = true
       end
     end
+
     if args_hash[:age]
       @atlas.setAge(args_hash[:age])
       @context_flags[:age] = true
     end
-
     if args_hash[:genre]
       @atlas.setGender(args_hash[:genre])
       @context_flags[:genre] = true
