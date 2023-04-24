@@ -24,7 +24,7 @@ or use the [bin/setup](bin/setup) executable:
 
 ## Usage
 
-Use the [bin/setup](bin/setup) executable, pass as parameter the path to the DSL file to be executed:
+Use the [bin/boneage](bin/boneage) executable, pass as parameter the path to the DSL file to be executed:
 
 ```console
 ./bin/boneage execute ./examples/basic_example.rb 
