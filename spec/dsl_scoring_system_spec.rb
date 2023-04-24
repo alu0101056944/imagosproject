@@ -18,8 +18,8 @@ RSpec.describe DSLScoringSystem do
           bone :radius, length: 23
 
           scoringSystem
-          roi 'A: falta de depósito de calcio', :ulna, :radius, :carpal, score: 9
-          roi 'B: Un solo depósito de calcio', :clavicle, score: 3
+          roi 'A: falta de depósito de calcio', :ulna, score: 9
+          roi 'B: Un solo depósito de calcio', :radius, score: 3
           mean
           show
         end
@@ -34,8 +34,8 @@ RSpec.describe DSLScoringSystem do
           bone :radius, length: 23
 
           scoringSystem
-          roi 'A: falta de depósito de calcio', :ulna, :radius, :carpal, score: 9
-          roi 'B: Un solo depósito de calcio', :clavicle, score: 3
+          roi 'A: falta de depósito de calcio', :ulna, score: 9
+          roi 'B: Un solo depósito de calcio', :radius, score: 3
           sum
           show
         end
@@ -50,14 +50,14 @@ RSpec.describe DSLScoringSystem do
           bone :radius, length: 23
 
           scoringSystem
-          roi 'A: falta de depósito de calcio', :ulna, :radius, :carpal, score: 9
-          roi 'B: Un solo depósito de calcio', :clavicle, score: 3
+          roi 'A: falta de depósito de calcio', :ulna, score: 9
+          roi 'B: Un solo depósito de calcio', :radius, score: 3
           sum
           show
 
           scoringSystem
-          roi 'A: falta de depósito de calcio', :ulna, :radius, :carpal, score: 9
-          roi 'B: Un solo depósito de calcio', :clavicle, score: 3
+          roi 'A: falta de depósito de calcio', :ulna, score: 9
+          roi 'B: Un solo depósito de calcio', :radius, score: 3
           mean
           show
         end
@@ -106,8 +106,8 @@ RSpec.describe DSLScoringSystem do
           bone :radius, length: 23
 
           scoringSystem
-          roi 'A: falta de depósito de calcio', :ulna, :radius, :carpal, score: 9
-          roi 'B: Un solo depósito de calcio', :clavicle, score: 3
+          roi 'A: falta de depósito de calcio', :ulna, score: 9
+          roi 'B: Un solo depósito de calcio', :radius, score: 3
           mean
           show
           radiography
@@ -230,12 +230,28 @@ RSpec.describe DSLScoringSystem do
           bone :foo, radius: 3
 
           scoringSystem
-          roi 'A: falta de depósito de calcio', :ulna, :radius, :carpal, score: 9
-          roi 'B: Un solo depósito de calcio', :clavicle, score: 3
+          roi 'A: falta de depósito de calcio', :ulna, score: 9
+          roi 'B: Un solo depósito de calcio', :radius, score: 3
           mean # error
           show
         end
       end.to raise_error(MissingBoneCategorizations)
+    end
+
+    it 'Categorized bones must be part of the radiography' do
+      expect do
+        DSLScoringSystem.new do
+          radiography
+          bone :ulna, length: 25
+          bone :radius, length: 23
+
+          scoringSystem
+          roi 'A: falta de depósito de calcio', :ulna, :radius, score: 9
+          roi 'B: Un solo depósito de calcio', :clavicle, score: 3 # erro, clavicle not valid bone
+          mean
+          show
+        end
+      end.to raise_error(ArgumentError)
     end
   end
 end

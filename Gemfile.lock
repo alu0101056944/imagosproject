@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tfgedadosea (0.16.0)
+    tfgedadosea (1.0.0)
       thor (~> 1.2.1)
 
 GEM

@@ -2,5 +2,5 @@
 
 module TFGEdadOsea
   # Semantic Version of the gem
-  VERSION = '1.0.0'.freeze
+  VERSION = '1.0.1'.freeze
 end

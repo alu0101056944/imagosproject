@@ -36,6 +36,9 @@ class DSLScoringSystem
   end
 
   def roi(*args_array, **args_hash)
+    bone_names = @radiography.getBoneNames
+    bones_passed = args_array.drop(1)
+    raise ArgumentError unless bones_passed.reject { |name| bone_names.include?(name) }.empty?
     raise ArgumentError unless @current_context == 'dslScoringSystem'
     raise ArgumentError if args_array.length < 2 ||
                            !args_array.first.is_a?(String) ||
