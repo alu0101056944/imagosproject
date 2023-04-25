@@ -21,6 +21,9 @@ class DSLAtlas
     @atlas = nil
     @created_radiography = nil
     @age_increments = 1
+
+    # flags for controlling whenever a method is called
+    # flags for start-end (like atlas, create) and flags for "must call" (like genre, etc)
     @context_flags = {
       atlas: false,
       create: false,
@@ -71,6 +74,7 @@ class DSLAtlas
     end
   end
 
+  # must have an atlas active, and genre and age specified
   def radiography(*_, **args_hash)
     raise ArgumentError unless @context_flags[:atlas] &&
                                @context_flags[:genre] &&
@@ -85,6 +89,7 @@ class DSLAtlas
     @context_flags[:radiography] = true
   end
 
+  # Ends radiography flag. Can only be called once after radiography
   def add
     raise ArgumentError unless @context_flags[:radiography]
 
@@ -92,7 +97,7 @@ class DSLAtlas
     @context_flags[:radiography] = false
   end
 
-  # args_array must be either [name] or [name, isRelative, referenceName]
+  # must be called while radiograhy is on
   def bone(*args_array, **hash_metrics)
     raise ArgumentError unless @context_flags[:radiography]
 
@@ -152,6 +157,10 @@ class DSLAtlas
     @atlas
   end
 
+  def setAtlas(atlas)
+    @atlas = atlas
+  end
+
   def getRadiography
     @created_radiography
   end
@@ -163,9 +172,9 @@ class DSLAtlas
     file_content = File.read("atlas/#{name}.rb")
     file_content_dump = Marshal.dump(file_content)
     dsl_atlas_string = Marshal.load(file_content_dump)
-    dsl_atlas = nil
-    binding.eval("dsl_atlas = #{dsl_atlas_string}")
-    @atlas = dsl_atlas.getAtlas
+    foo = nil
+    binding.eval("foo = #{dsl_atlas_string}")
+    @atlas = foo.getAtlas
   end
 
   def checkFlagBalance

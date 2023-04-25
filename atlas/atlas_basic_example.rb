@@ -6,9 +6,9 @@ DSLAtlas.new do
   radiography
   bone :ulna, length: 21
   bone :radius, length: 20
+  ageIncrements 1
 
-  age 9
   radiography
   bone :ulna, length: 22
-  bone :radius, length: 20
+  bone :radius, :relative, :ulna, length: -2
 end

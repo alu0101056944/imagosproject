@@ -152,6 +152,7 @@ class DSLComparison
   def genre(new_genre)
     raise ArgumentError if @atlas.nil?
 
+    @dsl_atlas.setAtlas(@atlas)
     @dsl_atlas.genre(new_genre)
     @context_flags[:genre] = true
   end
@@ -159,6 +160,7 @@ class DSLComparison
   def age(numeric)
     raise ArgumentError if @atlas.nil?
 
+    @dsl_atlas.setAtlas(@atlas)
     @dsl_atlas.age(numeric)
     @context_flags[:age] = true
   end

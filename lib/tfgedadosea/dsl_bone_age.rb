@@ -71,6 +71,7 @@ class DSLBoneAge
 
   def genre(new_genre)
     if @current_context == 'dsl_atlas'
+      @dsl_atlas.setAtlas(@atlas)
       @dsl_atlas.genre(new_genre)
     elsif @current_context == 'dsl_comparisons'
       @dsl_comparisons.genre(new_genre)
@@ -81,6 +82,7 @@ class DSLBoneAge
 
   def age(new_age)
     if @current_context == 'dsl_atlas'
+      @dsl_atlas.setAtlas(@atlas)
       @dsl_atlas.age(new_age)
     elsif @current_context == 'dsl_comparisons'
       @dsl_comparisons.age(new_age)
