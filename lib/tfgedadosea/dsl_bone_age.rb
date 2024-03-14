@@ -1,5 +1,7 @@
 # Marcos Jesús Barrios Lorenzo
 
+require_relative './error/out_of_context_error.rb'
+
 # Four different context related to bone age estimation:
 # radiography, atlas, comparisons, scoringSystem.
 # integration of those four dsl into one.

@@ -18,7 +18,7 @@ RSpec.describe DSLAtlas do
         age 4
 
         radiography
-        bone :ulna,                         width: 3, height: 20
+        bone :ulna,                           width: 3, height: 20
         bone :radius, :relativeTo, :ulna,     width: 1
         bone :humerus, :relativeTo, :radius,  width: 1, height: -4
 
@@ -35,7 +35,7 @@ RSpec.describe DSLAtlas do
         age 4
 
         radiography
-        bone :ulna,                         width: 3, height: 20
+        bone :ulna,                           width: 3, height: 20
         bone :radius, :relativeTo, :ulna,     width: 1
         bone :humerus, :relativeTo, :radius,  width: 1, height: -4
 
@@ -51,7 +51,7 @@ RSpec.describe DSLAtlas do
         age 4
 
         radiography
-        bone :ulna,                         width: 3, height: 20
+        bone :ulna,                           width: 3, height: 20
         bone :radius, :relativeTo, :ulna,     width: 1
         bone :humerus, :relativeTo, :radius,  width: 1, height: -4
       end
@@ -64,7 +64,7 @@ RSpec.describe DSLAtlas do
         age 4
 
         radiography
-        bone :ulna,                         width: 3, height: 20
+        bone :ulna,                           width: 3, height: 20
         bone :radius, :relativeTo, :ulna,     width: 1
         bone :humerus, :relativeTo, :radius,  width: 1, height: -4
 
@@ -82,7 +82,7 @@ RSpec.describe DSLAtlas do
         age 7
 
         radiography
-        bone :ulna,                         width: 3, height: 20
+        bone :ulna,                           width: 3, height: 20
         bone :radius, :relativeTo, :ulna,     width: 1
         bone :humerus, :relativeTo, :radius,  width: 1, height: -4
 
@@ -196,6 +196,7 @@ RSpec.describe DSLAtlas do
       end.not_to raise_error(ArgumentError)
     end
 
+    # So that the radiographies can be assigned to a (genre, age) pair
     it 'Must specify genre and age at least once before defining an atlas radiography.' do
       expect do
         DSLAtlas.new do
@@ -208,7 +209,7 @@ RSpec.describe DSLAtlas do
         DSLAtlas.new do
           atlas
           radiography
-          bone :ulna,                         width: 3, height: 20
+          bone :ulna, width: 3, height: 20
           create atlas: :gp
         end
       end.to raise_error(ArgumentError)
@@ -511,7 +512,7 @@ RSpec.describe DSLAtlas do
           age 4
 
           radiography name: 'Antonio' # new feature, naming radiographies with the observer's name
-          bone :ulna,                         width: 3, height: 20
+          bone :ulna,                           width: 3, height: 20
           bone :radius, :relativeTo, :ulna,     width: 1
           bone :humerus, :relativeTo, :radius,  width: 1, height: -4
         end

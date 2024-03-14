@@ -1,3 +1,4 @@
+
 RSpec.describe Atlas do
   context 'Attributes testing.' do
     it 'Atlas class exists.' do
@@ -6,6 +7,37 @@ RSpec.describe Atlas do
 
     it 'A Atlas class can be instanced.' do
       expect(Atlas.new(:gp)).not_to be nil
+    end
+  end
+
+  context 'addRadiography() testing' do
+    it 'Cannot assign two radiographies to the same (genre, age) pair' do
+      radiography = Radiography.new
+      atlas = Atlas.new(:foo)
+      atlas.addRadiography(radiography)
+      expect do
+        atlas.addRadiography(radiography)
+      end.to raise_error(DuplicatedRadiographyError)
+    end
+
+    it 'Cannot assign two radiographies to the same (genre, age) pair. ' +
+        '(With age specification)' do
+      radiography = Radiography.new
+      atlas = Atlas.new(:foo)
+      atlas.addRadiography(radiography, 4)
+      expect do
+        atlas.addRadiography(radiography, 4)
+      end.to raise_error(DuplicatedRadiographyError)
+    end
+
+    it 'Cannot assign two radiographies to the same (genre, age) pair. ' +
+        '(With age and genre specification)' do
+      radiography = Radiography.new
+      atlas = Atlas.new(:foo)
+      atlas.addRadiography(radiography, 4, :female)
+      expect do
+        atlas.addRadiography(radiography, 4, :female)
+      end.to raise_error(DuplicatedRadiographyError)
     end
   end
 

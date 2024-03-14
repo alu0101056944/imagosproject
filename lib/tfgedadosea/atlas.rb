@@ -1,5 +1,7 @@
 # Marcos Jesús Barrios Lorenzo
 
+require_relative './error/duplicated_radiography_error.rb'
+
 # Contains a radiography reference for each (age, gender) tuple
 class Atlas
   # Justification of nil initialization on class comment
@@ -69,9 +71,7 @@ class Atlas
     @best_age = nil
     @radiographies.each do |genre, ages_hash|
       ages_hash.each do |age, rad|
-        difference = AtlasRadiography.new(radiography).differenceScore(
-          rad
-        )
+        difference = AtlasRadiography.new(radiography).differenceScore(rad)
 
         if @least_difference.nil? || difference < @least_difference
           @least_difference = difference

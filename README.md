@@ -8,6 +8,10 @@ Marcos Jesús Barrios Lorenzo
 
 Domain Specific Languages are a good way to make more explicit the process of bone age estimation. This program can be used to setup bone measurements that are compared to an atlas's measurements to obtain an age estimation. The main objective is to offer an open system as opposed to black box alternatives for the Greulich Pyle, Tanner-Whitehouse methods for bone age estimation.
 
+## Requirements
+
+ - Ruby (3.3 tested)
+
 ## Installation
 
 To install, execute the following CLI command:
@@ -30,7 +34,11 @@ Use the [bin/boneage](bin/boneage) executable, pass as parameter the path to the
 ./bin/boneage execute ./examples/basic_example.rb 
 ```
 
-```console
+**The path must be relative, `examples/basic_example.rb` does not work, while `./examples/basic_example.rb` does**.
+
+This is what happens when the path parameter is not included:
+
+```bash
 usuario@ubuntu ~/ruby/tfgedadosea (dev) $ ./bin/boneage execute 
 ERROR: "boneage execute" was called with no arguments
 Usage: "boneage execute PATH"

@@ -33,8 +33,8 @@ RSpec.describe DSLBoneAge do
       expect do
         DSLBoneAge.new do
           radiography
-          bone :radius, length: 21, width: 3
-          bone :ulna, length: 20, width: 2
+          bone :radius, length: 21
+          bone :ulna, length: 20
 
           atlas name: :atlas_generated_for_dsl_comparison_spec, age: 8, genre: :male
 
@@ -50,6 +50,31 @@ RSpec.describe DSLBoneAge do
           show
         end
       end.to output(/8(.|\n)*4/).to_stdout
+    end
+  end
+
+  context 'Context switch error detection' do
+    it 'Cannot call different context specific methods on other contexts' do
+      expect do
+        DSLBoneAge.new do
+          radiography
+
+          # was in radiography creation context, this should not be here
+          roi 'A', :radius, score: 5 
+        end
+      end.to raise_error(OutOfContextError)
+
+      expect do
+        DSLBoneAge.new do
+          atlas name: :gp_created_by_spec_for_testing, age: 8, genre: :female
+          # roi belongs to the scoringSystem context and not to the the atlas
+          # creation context
+          roi 'A', :radius, score:5
+          create
+        end
+      end.to raise_error(OutOfContextError)
+
+      # @TODO test the rest of the OutOfContextErrors
     end
   end
 end

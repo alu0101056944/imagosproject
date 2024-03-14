@@ -70,7 +70,7 @@ RSpec.describe Bone do
       expect { ulna.instanceFromNonIntrinsic('radius', {width: -3 }) }.to raise_error(ArgumentError)
     end
 
-    it 'Does not accept zero values.' do
+    it 'New measurement result is throws if it\'s equal to 0.' do
       humerus = Bone.new('humerus', { width: 3, length: 35 })
       expect { humerus.instanceFromNonIntrinsic('foo', { width: -3 }) }.to raise_error(ArgumentError)
     end
