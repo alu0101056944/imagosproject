@@ -11,18 +11,18 @@ class Radiography
   # non intrinsic instancing.
   def addBone(name, new_name, measurements)
     bone_search = @bones.select { |bone| bone == name }
-    raise ArgumentError if bone_search.any? && new_name.nil? ||
-                           bone_search.empty? && !new_name.nil?
+    raise ArgumentError if new_name.nil? && bone_search.any?  ||
+                           !new_name.nil? && bone_search.empty?
 
-    if !new_name.nil?
-      @bones.push(bone_search.first.instanceFromNonIntrinsic(new_name, measurements))
-    else
+    if new_name.nil?
       @bones.push(Bone.new(name, measurements))
+    else
+      @bones.push(bone_search.first.instanceFromNonIntrinsic(new_name, measurements))
     end
   end
 
   def hasBone(name)
-    !(@bones.select { |bone| bone == name }).empty?
+    (@bones.select { |bone| bone == name }).any?
   end
 
   def getMeasurements(name)

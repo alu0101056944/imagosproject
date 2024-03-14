@@ -1,5 +1,8 @@
 # Marcos Jesús Barrios Lorenzo
 
+require_relative './error/different_measurements_error.rb'
+require_relative './error/different_bones_error.rb'
+
 # Contains the algorithm for getting the difference between two radiographies.
 #
 # This is used on DSLComparison on the compare method to calculate the difference
@@ -14,11 +17,12 @@ class AtlasRadiography
     difference = 0
     @radiography.getBoneNames.each do |name|
       other = other_radiography.getMeasurements(name)
-      this = @radiography.getMeasurements(name)
-      raise DifferentBonesError if other.nil? || this.nil?
-      raise DifferentMeasurementErrors unless (other.keys - this.keys).empty?
+      own = @radiography.getMeasurements(name)
+      raise DifferentBonesError if other.nil? || own.nil?
+      raise DifferentMeasurementsError unless (other.keys - own.keys).empty? &&
+                                              (own.keys - other.keys).empty?
 
-      this.each_key { |k| difference += (this[k] - other[k]).abs if other[k] }
+      own.each_key { |k| difference += (own[k] - other[k]).abs }
     end
     difference
   end

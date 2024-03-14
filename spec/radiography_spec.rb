@@ -10,7 +10,7 @@ RSpec.describe Radiography do
   end
 
   context 'Bone container management operations.' do
-    describe 'addBone is working as intended.' do
+    describe 'addBone basic testing.' do
       it 'Can add a bone.' do
         radiography = Radiography.new
         radiography.addBone('radius', nil, { width: 2, height: 3 })

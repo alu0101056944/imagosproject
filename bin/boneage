@@ -9,7 +9,7 @@ class BoneAgeCLI < Thor
   package_name 'BoneAge'
 
   # commands
-  desc 'execute PATH', 'execute a DSL file at PAth'
+  desc 'execute PATH', 'execute a DSL file at PATH'
 
   # command implementation with it's parameters
   def execute(path)
