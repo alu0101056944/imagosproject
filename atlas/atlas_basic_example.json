@@ -1,0 +1,47 @@
+{
+  "nombre": "atlas_basic_example",
+  "radiographies": {
+    "female": [],
+    "male": [
+      {
+        "age": "8",
+        "bones": [
+          {
+            "name": "ulna",
+            "relative": "false",
+            "measurements": {
+              "length": "21"
+            }
+          },
+          {
+            "name": "radius",
+            "relative": "false",
+            "measurements": {
+              "length": "20"
+            }
+          }
+        ]
+      },
+      {
+        "age": "9",
+        "bones": [
+          {
+            "name": "ulna",
+            "relative": "false",
+            "measurements": {
+              "length": "22"
+            }
+          },
+          {
+            "name": "radius",
+            "relative": "true",
+            "otherName": "ulna",
+            "measurements": {
+              "length": "-2"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 DSLBoneAge.new do
   radiography name: 'Antonio'
-  bone :radius, length: 21, width: 3
-  bone :ulna, length: 20, width: 2
+  bone :radius, length: 21
+  bone :ulna, length: 20
 
   atlas name: :atlas_basic_example, age: 8, genre: :male
 
@@ -12,8 +12,8 @@ DSLBoneAge.new do
   show
 
   radiography name: 'Marcos'
-  bone :radius, length: 20, width: 3
-  bone :ulna, length: 22, width: 2
+  bone :radius, length: 20
+  bone :ulna, length: 22
 
   comparisons
   compare :all

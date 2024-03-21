@@ -12,13 +12,17 @@ class AtlasRadiography
     @radiography = radiography
   end
 
-  # calculate full difference between two radiographies
+  # calculate difference between two radiographies
   def differenceScore(other_radiography)
     difference = 0
-    @radiography.getBoneNames.each do |name|
+    own_bone_names = @radiography.getBoneNames
+    other_bone_names = other_radiography.getBoneNames
+    raise DifferentBonesError unless
+        (other_bone_names - own_bone_names).empty? &&
+        (own_bone_names - other_bone_names).empty?
+    own_bone_names.each do |name|
       other = other_radiography.getMeasurements(name)
       own = @radiography.getMeasurements(name)
-      raise DifferentBonesError if other.nil? || own.nil?
       raise DifferentMeasurementsError unless (other.keys - own.keys).empty? &&
                                               (own.keys - other.keys).empty?
 
@@ -30,12 +34,13 @@ class AtlasRadiography
   # calculate difference between two bones
   def difference(bone_name, other_radiography)
     other = other_radiography.getMeasurements(bone_name)
-    this = @radiography.getMeasurements(bone_name)
-    raise DifferentBonesError if other.nil? || this.nil?
-    raise DifferentMeasurementsError unless (other.keys - this.keys).empty?
+    own = @radiography.getMeasurements(bone_name)
+    raise DifferentBonesError if other.nil? || own.nil?
+    raise DifferentMeasurementsError unless (other.keys - own.keys).empty? &&
+                                            (own.keys - other.keys).empty?
 
     difference = 0
-    this.each_key { |k| difference += (this[k] - other[k]).abs if other[k] }
+    own.each_key { |k| difference += (own[k] - other[k]).abs if other[k] }
     difference
   end
 end

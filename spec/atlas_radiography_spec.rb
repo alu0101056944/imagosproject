@@ -30,6 +30,115 @@ RSpec.describe AtlasRadiography do
     end
   end
 
+  context 'Raises error when different bones or measurements.' do
+    describe 'Different measurements, bone difference.' do
+      it 'Extra measurements raises error.' do
+        radiography1 = Radiography.new
+        radiography1.addBone('radius', nil, { length: 21, width: 4 })
+        radiography1.addBone('ulna', nil, { length: 22, width: 4 })
+
+        radiography2 = Radiography.new
+        radiography2.addBone('radius', nil, { length: 19 })
+        radiography2.addBone('ulna', nil, { length: 23 })
+
+        expect do
+          difference_radius = AtlasRadiography.new(radiography1)
+              .difference('radius', radiography2)
+        end.to raise_error(DifferentMeasurementsError)
+      end
+
+      it 'Less measurements raises error.' do
+        radiography1 = Radiography.new
+        radiography1.addBone('radius', nil, { length: 19 })
+        radiography1.addBone('ulna', nil, { length: 23 })
+
+        radiography2 = Radiography.new
+        radiography2.addBone('radius', nil, { length: 21, width: 4})
+        radiography2.addBone('ulna', nil, { length: 22, width: 4 })
+
+        expect do
+          difference_radius = AtlasRadiography.new(radiography1)
+              .difference('radius', radiography2)
+        end.to raise_error(DifferentMeasurementsError)
+      end
+    end
+
+    describe 'Different measurements, radiography difference.' do
+      it 'Extra measurements raises error.' do
+        radiography1 = Radiography.new
+        radiography1.addBone('radius', nil, { length: 21, width: 4 })
+        radiography1.addBone('ulna', nil, { length: 22, width: 4 })
+
+        radiography2 = Radiography.new
+        radiography2.addBone('radius', nil, { length: 19 })
+        radiography2.addBone('ulna', nil, { length: 23 })
+
+        expect do
+          difference_radius = AtlasRadiography.new(radiography1)
+              .differenceScore(radiography2)
+        end.to raise_error(DifferentMeasurementsError)
+      end
+
+      it 'Less measurements raises error.' do
+        radiography1 = Radiography.new
+        radiography1.addBone('radius', nil, { length: 19 })
+        radiography1.addBone('ulna', nil, { length: 23 })
+
+        radiography2 = Radiography.new
+        radiography2.addBone('radius', nil, { length: 21, width: 4})
+        radiography2.addBone('ulna', nil, { length: 22, width: 4 })
+
+        expect do
+          difference_radius = AtlasRadiography.new(radiography1)
+              .differenceScore(radiography2)
+        end.to raise_error(DifferentMeasurementsError)
+      end
+    end
+
+    describe 'Different bones, radiography difference.' do
+      it 'Extra bones raises error.' do
+        radiography1 = Radiography.new
+        radiography1.addBone('radius', nil, { length: 21 })
+        radiography1.addBone('ulna', nil, { length: 22 })
+
+        radiography2 = Radiography.new
+        radiography2.addBone('radius', nil, { length: 19 })
+
+        expect do
+          difference_radius = AtlasRadiography.new(radiography1)
+              .differenceScore(radiography2)
+        end.to raise_error(DifferentBonesError)
+      end
+
+      it 'Less bones raises error.' do
+        radiography1 = Radiography.new
+        radiography1.addBone('radius', nil, { length: 19 })
+
+        radiography2 = Radiography.new
+        radiography2.addBone('radius', nil, { length: 21 })
+        radiography2.addBone('ulna', nil, { length: 22 })
+
+        expect do
+          difference_radius = AtlasRadiography.new(radiography1)
+              .differenceScore(radiography2)
+        end.to raise_error(DifferentBonesError)
+      end
+
+      it 'Different bones raises error.' do
+        radiography1 = Radiography.new
+        radiography1.addBone('radius', nil, { length: 19 })
+
+        radiography2 = Radiography.new
+        radiography2.addBone('ulna', nil, { length: 22 })
+
+        expect do
+          difference_radius = AtlasRadiography.new(radiography1)
+              .differenceScore(radiography2)
+        end.to raise_error(DifferentBonesError)
+      end
+    end
+  end
+
   context 'Incorrect difference use testing.' do
     it 'Bone level difference calculation requires bones to exist.' do
       radiography1 = Radiography.new
@@ -41,7 +150,8 @@ RSpec.describe AtlasRadiography do
       end.to raise_error(DifferentBonesError)
     end
 
-    it 'Error if trying to compare radiographies with different bones' do
+    it 'Error if trying to compare radiographies with bones of different' +
+        ' measurements.' do
       radiography1 = Radiography.new
       radiography1.addBone('radius', nil, { width: 4 })
       radiography2 = Radiography.new
