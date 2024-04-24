@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'lib/tfgedadosea/version'
+require_relative 'lib/imagosproject/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'tfgedadosea'
-  spec.version       = TFGEdadOsea::VERSION
+  spec.name          = 'imagosproject'
+  spec.version       = ImagosProject::VERSION
   spec.authors       = ['Marcos Jesús Barrios Lorenzo']
   spec.email         = ['alu0101056944@ull.edu.es']
 

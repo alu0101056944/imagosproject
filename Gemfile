@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in tfgedadosea.gemspec
+# Specify your gem's dependencies in imagosproject.gemspec
 gemspec
 
 gem "rake"

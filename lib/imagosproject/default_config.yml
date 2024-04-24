@@ -1,0 +1,7 @@
+# This file is menat to have the contents that will be used when the user
+# configured ./config.yml is missing
+
+# DO NOT CHANGE
+
+executable_path: 'bin/boneage'
+logging_level: 1

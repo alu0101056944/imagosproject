@@ -2,7 +2,7 @@
 
 require 'thor'
 
-require_relative '../lib/tfgedadosea'
+require_relative '../lib/imagosproject'
 
 # Using thor package to create a proper CLI program
 class BoneAgeCLI < Thor
@@ -11,9 +11,27 @@ class BoneAgeCLI < Thor
   # commands
   desc 'execute PATH', 'execute a DSL file at PATH'
 
+  option :config, :aliases => "-c", :desc => "Configuration file path"
+
   # command implementation with it's parameters
-  def execute(path)
-    require(path)
+  def execute(file_path)
+    if options[:config]
+      ImagosProject.loadConfig(options[:config])
+    else
+      ImagosProject.loadConfig()
+    end
+
+    begin
+      puts "Executing file #{file_path}."
+      require(file_path)
+    rescue Exception => e
+      if ImagosProject.config['logging_level'] == 1
+        puts "ERROR encountered #{e.class}\n#{e.message}"
+      else
+        puts "ERROR #{e.class}: #{e.message}\n#{e.backtrace}"
+      end
+      puts 'Program to exit.'
+    end
   end
 
   # required for the operating system to exit when something goes wrong.
