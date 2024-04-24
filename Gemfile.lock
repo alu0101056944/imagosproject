@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tfgedadosea (1.0.3)
+    imagosproject (1.1.0)
       thor (~> 1.2.1)
 
 GEM
@@ -70,7 +70,7 @@ DEPENDENCIES
   rspec
   rubocop
   simplecov
-  tfgedadosea!
+  imagosproject!
   thor
 
 BUNDLED WITH

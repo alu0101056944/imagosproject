@@ -39,7 +39,7 @@ Use the [bin/boneage](bin/boneage) executable, pass as parameter the path to the
 This is what happens when the path parameter is not included:
 
 ```bash
-usuario@ubuntu ~/ruby/tfgedadosea (dev) $ ./bin/boneage execute 
+usuario@ubuntu ~/ruby/imagosproject (dev) $ ./bin/boneage execute 
 ERROR: "boneage execute" was called with no arguments
 Usage: "boneage execute PATH"
 ```

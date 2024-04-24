@@ -1,7 +1,9 @@
 require "simplecov"
 SimpleCov.start
 require "bundler/setup"
-require_relative "../lib/tfgedadosea.rb"
+require_relative "../lib/imagosproject.rb"
+
+ImagosProject.loadConfig()
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
