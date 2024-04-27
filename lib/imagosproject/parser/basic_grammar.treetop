@@ -13,9 +13,39 @@ grammar MyGrammar
     ([a-zA-Z] / [0-9])+ <NameLiteralNode>
   end
 
+  rule number
+    "-"? [0-9]* ("." [0-9]+)? <NumberNode>
+  end
+
   rule statement
-    "DEFINE" space+ name <DefineAtlasNode>
+    "DEFINE" space+ (("A" / "AN") space+)? "ATLAS" space+ "NAMED" name space+
+      "WITH" space+ ("THE" space+)? ("FOLLOWING" space+)?
+      ("RADIOGRAPHIES" space+)? atlasRadiographyDefinition+ <DefineAtlasNode>
     /
-    "COMPARE" <CompareRadiographyNode>
+    "COMPARE" space+ ("THE" space+)? "RADIOGRAPHY" space+ 
+      ("OBSERVED" space+ "BY" space+ name space+)?
+      "USING" space+ name ("WITH" space+)? ("THE" space+)? name
+      ("ATLAS" space+)?
+      "STARTING" space+ "WITH" space+ "GENDER" space+ name space+
+      "DEFINED" space+ "BY" space+ boneMeasurements space+
+      <CompareRadiographyNode>
+  end
+
+  rule atlasRadiographyDefinition
+    binSelection space+ boneMeasurements space+ <AtlasRadiographyDefinitionNode>
+  end
+
+  rule binSelection
+    ("ONE" space+)? "FOR" space+ "GENDER" space+ name space+ "AGE" space+ number
+    space+ "WITH" <BinSelectionNode>
+  end
+
+  rule boneMeasurements
+    ("A" space+ / "AN" space+)? name space+ "BONE" space+ "OF" space+
+    "MEASUREMENTS" space+ measurement+ space+ <BoneMeasurementsNode>
+  end
+
+  rule measurement
+    name space+ "=" space+ number <MeasurementNode>
   end
 end

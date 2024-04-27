@@ -27,6 +27,12 @@ class NameLiteralNode < Treetop::Runtime::SyntaxNode
   end
 end
 
+class NumberNode < Treetop::Runtime::SyntaxNode
+  def value
+    return text_value
+  end
+end
+
 class DefineAtlasNode < Treetop::Runtime::SyntaxNode
   def value
     return elements[0].text_value +
@@ -40,3 +46,29 @@ class CompareRadiographyNode < Treetop::Runtime::SyntaxNode
     return text_value
   end
 end
+
+class AtlasRadiographyDefinitionNode < Treetop::Runtime::SyntaxNode
+  def value
+    ''
+  end
+end
+
+class BinSelectionNode < Treetop::Runtime::SyntaxNode
+  def value
+    ''
+  end
+end
+
+class BoneMeasurementsNode < Treetop::Runtime::SyntaxNode
+  def value
+    ''
+  end
+end
+
+class MeasurementNode < Treetop::Runtime::SyntaxNode
+  def value
+    ''
+  end
+end
+
+
