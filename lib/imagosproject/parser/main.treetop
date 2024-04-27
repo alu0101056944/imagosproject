@@ -1,0 +1,20 @@
+
+grammar MyGrammar
+  def root
+    (\n+ / " "+)* statement
+  end
+
+  def statement
+    defineAtlas "(\n+ / " "+) root* /
+    compareRadiography root*
+  end
+
+  def defineAtlas
+    "COMPARE" "THE"? "RADIOGRAPHY" "OBSERVED BY" name
+        "USING" comparisonMethod "WITH"? "THE" name "ATLAS"?
+        "STARTING" "WITH" "GENDER" gender
+        "DEFINED BY" measurements
+  end
+
+
+end
