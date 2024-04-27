@@ -1,51 +1,21 @@
+ # Test for keyword vs name difference
 
 grammar MyGrammar
   rule root
-    space* (statement space+)*  {
-                                  def value
-                                    elements[1].elements.map do |node|
-                                      node.elements[0].value +
-                                      node.elements[1].elements.map do |node2|
-                                        node2.value
-                                      end.join()
-                                    end
-                                  end
-                                }
+    space* statement* (space+ statement)* space* <RootNode>
   end
 
   rule space
-    ("\n"+ / " "+)  {
-                      def value
-                        text_value
-                      end
-                    }
+    ("\n" / " ")+ <SpaceNode>
   end
 
   rule name
-    ([a-zA-Z] / [0-9])+   {
-                            def value
-                              elements.map do |node|
-                                node.text_value
-                              end.join()
-                            end
-                          }
+    ([a-zA-Z] / [0-9])+ <NameLiteralNode>
   end
 
   rule statement
-    "DEFINE" space+ name  {
-                            def value
-                              elements[0].text_value +
-                                  elements[1].elements.map do |node|
-                                    node.value
-                                  end.join() +
-                                  elements[2].value
-                            end
-                          }
+    "DEFINE" space+ name <DefineAtlasNode>
     /
-    "COMPARE"   {
-                  def value
-                    elements[0].text_value
-                  end
-                }
+    "COMPARE" <CompareRadiographyNode>
   end
 end
