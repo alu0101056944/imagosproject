@@ -68,6 +68,16 @@ class CompareRadiographyNode < Treetop::Runtime::SyntaxNode
   end
 end
 
+class LoadNode < Treetop::Runtime::SyntaxNode
+  def value
+    (load_, space1, optional_the, method, named, space2, name, space3) =
+        elements()
+    return load_.text_value + space1.text_value + optional_the.text_value +
+        method.text_value + named.text_value + space2.text_value +
+        name.text_value + space3.text_value
+  end
+end
+
 class AtlasRadiographyDefinitionNode < Treetop::Runtime::SyntaxNode
   def value
     (binSelection, space1, boneMeasurements) = elements()

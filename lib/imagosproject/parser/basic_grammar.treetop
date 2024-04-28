@@ -29,6 +29,9 @@ grammar MyGrammar
       "STARTING" space+ "WITH" space+ "GENDER" space+ name space+
       "DEFINED" space+ "BY" space+ boneMeasurements+
       <CompareRadiographyNode>
+    /
+    "LOAD" space+ ("THE" space+)? ("ATLAS" space+ / "SCORING" space+ "SYSTEM")
+      "NAMED" space+ name space+ <LoadNode>
   end
 
   rule atlasRadiographyDefinition
