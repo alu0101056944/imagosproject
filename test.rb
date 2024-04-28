@@ -5,7 +5,7 @@ require_relative 'lib/imagosproject/parser/grammar_methods.rb'
 require_relative 'lib/imagosproject/parser/basic_grammar.rb'
 
 content = %Q[
-  DEFINE A foo ATLAS NAMED myGreulichPyle
+  DEFINE AN foo ATLAS NAMED myGreulichPyle
   WITH THE FOLLOWING RADIOGRAPHIES
 	ONE FOR GENDER male AGE 8 WITH
   	A Radius BONE OF MEASUREMENTS
@@ -58,6 +58,13 @@ content = %Q[
   WidthEpiphysis4 = 3.18723
 
   LOAD ATLAS NAMED foo
+
+  DEFINE AN foo SCORING SYSTEM NAMED myGreulichPyle
+  WITH THE FOLLOWING REGIONS OF INTEREST
+  ANOTHER DESCRIBED AS "A" WITH SCORE 9 COMPOSED OF
+    Radius, Ulna
+  ONE DESCRIBED AS "B" WITH SCORE 8 COMPOSED OF
+    Trapezoid, Capitate
 
 ]
 

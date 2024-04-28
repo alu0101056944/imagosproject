@@ -33,6 +33,12 @@ class NumberNode < Treetop::Runtime::SyntaxNode
   end
 end
 
+class StringNode < Treetop::Runtime::SyntaxNode
+  def value
+    return text_value
+  end
+end
+
 class DefineAtlasNode < Treetop::Runtime::SyntaxNode
   def value
     (define, space1, optional_a, name1, space2, atlas, space3, named, space4,
@@ -45,6 +51,21 @@ class DefineAtlasNode < Treetop::Runtime::SyntaxNode
         space6.text_value + optional_the.text_value +
         optional_following.text_value + optional_radiographies.text_value +
         atlasRadiographyDef.text_value
+  end
+end
+
+class DefineROINode < Treetop::Runtime::SyntaxNode
+  def value
+    (define, space1, optional_a, name1, space2, scoring, space3, system_, space4,
+        named, space5, name2, space6, with, space7, optional_the,
+        optional_following, optional_roi, roiDefinition) = elements()
+    return define.text_value + space1.text_value + optional_a.text_value +
+        name1.text_value + space2.text_value + scoring.text_value +
+        space3.text_value + system_.text_value + space4.text_value +
+        named.text_value + space5.text_value + name2.text_value +
+        space6.text_value + with.text_value + space7.text_value +
+        optional_the.text_value + optional_following.text_value +
+        optional_roi.text_value + roiDefinition.text_value
   end
 end
 
@@ -105,6 +126,26 @@ class BoneMeasurementsNode < Treetop::Runtime::SyntaxNode
     return optional_a.text_value + name.text_value + space1.text_value +
         bone.text_value + space2.text_value + of.text_value + space3.text_value +
         measurements.text_value + space5 + measurements
+  end
+end
+
+class ROIMetaNode < Treetop::Runtime::SyntaxNode
+  def value
+    (optional_one, described, space1, as, space2, string, space3, with, space4,
+    score, space5, number, space6, composed, space7, of, space8) = elements()
+    return optional_one.text_value + described.text_value + space1.text_value +
+        as.text_value + space2.text_value + string.text_value +
+        space3.text_value + with.text_value + space4.text_value +
+        score.text_value + space5.text_value + number.text_value +
+        space6.text_value + composed.text_value + space7.text_value +
+        of.text_value + space8.text_value
+  end
+end
+
+class BoneListNode < Treetop::Runtime::SyntaxNode
+  def value
+    (name, space1, name2) = elements()
+    return name.text_value + space1.text_value + name2.text_value
   end
 end
 

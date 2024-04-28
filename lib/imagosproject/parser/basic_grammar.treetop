@@ -17,14 +17,23 @@ grammar MyGrammar
     "-"? [0-9]* ("." [0-9]+)? <NumberNode>
   end
 
+  rule string
+    "\"" (name / space)* "\"" <StringNode>
+  end
+
   rule statement
-    "DEFINE" space+ (("A" / "AN") space+)? name space+ "ATLAS" space+ "NAMED"
+    "DEFINE" space+ (("AN" / "A") space+)? name space+ "ATLAS" space+ "NAMED"
       space+ name space+ "WITH" space+ ("THE" space+)? ("FOLLOWING" space+)?
       ("RADIOGRAPHIES" space+)? atlasRadiographyDefinition+ <DefineAtlasNode>
     /
+    "DEFINE" space+ (("AN" / "A") space+)? name space+ "SCORING" space+ "SYSTEM"
+      space+ "NAMED" space+ name space+ "WITH" space+ ("THE" space+)?
+      ("FOLLOWING" space+)? ("REGIONS" space+ "OF" space+ "INTEREST" space+)?
+      roiDefinition+ <DefineROINode>
+    /
     "COMPARE" space+ ("THE" space+)? "RADIOGRAPHY" space+ 
       ("OBSERVED" space+ "BY" space+ name space+)?
-      "USING" space+ "THE" space+ name space+ ("ATLAS" space+ / "SCORING" space+
+      "USING" space+ ("THE" space+)? name space+ ("ATLAS" space+ / "SCORING" space+
           "SYSTEM" space+ "BY" space+ ("MEAN" space+ / "SUM" space+))
       "STARTING" space+ "WITH" space+ "GENDER" space+ name space+
       "DEFINED" space+ "BY" space+ boneMeasurements+
@@ -46,6 +55,20 @@ grammar MyGrammar
   rule boneMeasurements
     ("A" space+ / "AN" space+)? name space+ "BONE" space+ "OF" space+
     "MEASUREMENTS" space+ (measurement space+)+ <BoneMeasurementsNode>
+  end
+
+  rule roiDefinition
+    roiMeta boneList
+  end
+
+  rule roiMeta
+    ("ONE" space+ / "ANOTHER" space+)? "DESCRIBED" space+ "AS" space+ string
+    space+ "WITH" space+ "SCORE" space+ number space+ "COMPOSED" space+ "OF"
+    space+ <ROIMetaNode>
+  end
+
+  rule boneList
+    name space* ("," space* name space+)* <BoneListNode>
   end
 
   rule measurement
