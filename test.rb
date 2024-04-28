@@ -34,7 +34,7 @@ content = %Q[
     	width = 3.43
 
   COMPARE THE RADIOGRAPHY OBSERVED BY bar
-  USING greulichPyle WITH THE myGreulichPyle ATLAS
+  USING THE myGreulichPyle SCORING SYSTEM BY SUM
   STARTING WITH GENDER male
   DEFINED BY
   A Radius BONE OF MEASUREMENTS

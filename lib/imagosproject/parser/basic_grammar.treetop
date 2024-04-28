@@ -24,8 +24,8 @@ grammar MyGrammar
     /
     "COMPARE" space+ ("THE" space+)? "RADIOGRAPHY" space+ 
       ("OBSERVED" space+ "BY" space+ name space+)?
-      "USING" space+ name space+ ("WITH" space+)? ("THE" space+)? name space+
-      ("ATLAS" space+)?
+      "USING" space+ "THE" space+ name space+ ("ATLAS" space+ / "SCORING" space+
+          "SYSTEM" space+ "BY" space+ ("MEAN" space+ / "SUM" space+))
       "STARTING" space+ "WITH" space+ "GENDER" space+ name space+
       "DEFINED" space+ "BY" space+ boneMeasurements+
       <CompareRadiographyNode>

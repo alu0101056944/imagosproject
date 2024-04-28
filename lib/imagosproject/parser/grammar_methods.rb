@@ -51,20 +51,19 @@ end
 class CompareRadiographyNode < Treetop::Runtime::SyntaxNode
   def value
     (compare, space1, optional_the1, radiography, space2, optional_observed_by,
-        using_, space3, name1, space4, optional_with, optional_the2, name2,
-        space5, optional_atlas, starting, space6, with, space7, gender, space8,
-        name3, space9, defined, space10, by, space11, boneMeasurements
+        using_, space3, optional_the2, space4, name2, method, starting, space5,
+        with, space6, gender, space7, name3, space8, defined, space9, by,
+        space10, boneMeasurements
     ) = elements()
     return compare.text_value + space1.text_value + optional_the1.text_value +
         radiography.text_value + space2.text_value +
         optional_observed_by.text_value + using_.text_value + space3.text_value +
-        name1.text_value + space4.text_value + optional_with.text_value +
-        optional_the2.text_value + name2.text_value + space5.text_value +
-        optional_atlas.text_value + starting.text_value +
-        space6.text_value + with.text_value + space7.text_value +
-        gender.text_value + space8.text_value + name3.text_value +
-        space9.text_value + defined.text_value + space9.text_value +
-        by.text_value + space9.text_value + boneMeasurements.text_value
+        optional_the2.text_value + space4.text_value + name2.text_value +
+        method.text_value + starting.text_value + space5.text_value +
+        with.text_value + space6.text_value + gender.text_value +
+        space7.text_value + name3.text_value + space8.text_value +
+        defined.text_value + space9.text_value + by.text_value +
+        space10.text_value + boneMeasurements.text_value
   end
 end
 
