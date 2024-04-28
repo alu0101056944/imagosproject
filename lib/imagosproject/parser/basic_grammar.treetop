@@ -40,7 +40,9 @@ grammar MyGrammar
       <CompareRadiographyNode>
     /
     "LOAD" space+ ("THE" space+)? ("ATLAS" space+ / "SCORING" space+ "SYSTEM")
-      "NAMED" space+ name space+ <LoadNode>
+      "NAMED" space+ name space+ "STARTING" space+ "WITH" space+ ("GENDER"
+          space+ name space+ "AGE" space+ number space+ / "AGE" space+ number
+          space+ "GENDER" space+ name space+) <LoadNode>
   end
 
   rule atlasRadiographyDefinition

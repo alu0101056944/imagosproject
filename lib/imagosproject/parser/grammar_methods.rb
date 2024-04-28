@@ -88,13 +88,17 @@ class CompareRadiographyNode < Treetop::Runtime::SyntaxNode
   end
 end
 
+# TODO: if atlas check age and gender, otherwise dont
 class LoadNode < Treetop::Runtime::SyntaxNode
   def value
-    (load_, space1, optional_the, method, named, space2, name, space3) =
+    (load_, space1, optional_the, method, named, space2, name, space3, starting,
+        space4, with, space5, gender_and_age) =
         elements()
     return load_.text_value + space1.text_value + optional_the.text_value +
         method.text_value + named.text_value + space2.text_value +
-        name.text_value + space3.text_value
+        name.text_value + space3.text_value + starting.text_value +
+        space4.text_value + with.text_value + space5.text_value +
+        gender_and_age.text_value
   end
 end
 
