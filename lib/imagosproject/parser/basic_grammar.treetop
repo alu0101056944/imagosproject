@@ -6,7 +6,7 @@ grammar MyGrammar
   end
 
   rule space
-    ("\n" / " ")+ <SpaceNode>
+    ("\n" / " " / "\t" / "\r" / "\f" / "\v")+ <SpaceNode>
   end
 
   rule name
@@ -18,21 +18,21 @@ grammar MyGrammar
   end
 
   rule statement
-    "DEFINE" space+ (("A" / "AN") space+)? "ATLAS" space+ "NAMED" name space+
-      "WITH" space+ ("THE" space+)? ("FOLLOWING" space+)?
+    "DEFINE" space+ (("A" / "AN") space+)? name space+ "ATLAS" space+ "NAMED"
+      space+ name space+ "WITH" space+ ("THE" space+)? ("FOLLOWING" space+)?
       ("RADIOGRAPHIES" space+)? atlasRadiographyDefinition+ <DefineAtlasNode>
     /
     "COMPARE" space+ ("THE" space+)? "RADIOGRAPHY" space+ 
       ("OBSERVED" space+ "BY" space+ name space+)?
-      "USING" space+ name ("WITH" space+)? ("THE" space+)? name
+      "USING" space+ name space+ ("WITH" space+)? ("THE" space+)? name space+
       ("ATLAS" space+)?
       "STARTING" space+ "WITH" space+ "GENDER" space+ name space+
-      "DEFINED" space+ "BY" space+ boneMeasurements space+
+      "DEFINED" space+ "BY" space+ boneMeasurements+
       <CompareRadiographyNode>
   end
 
   rule atlasRadiographyDefinition
-    binSelection space+ boneMeasurements space+ <AtlasRadiographyDefinitionNode>
+    binSelection space+ boneMeasurements+ <AtlasRadiographyDefinitionNode>
   end
 
   rule binSelection
@@ -42,7 +42,7 @@ grammar MyGrammar
 
   rule boneMeasurements
     ("A" space+ / "AN" space+)? name space+ "BONE" space+ "OF" space+
-    "MEASUREMENTS" space+ measurement+ space+ <BoneMeasurementsNode>
+    "MEASUREMENTS" space+ (measurement space+)+ <BoneMeasurementsNode>
   end
 
   rule measurement
