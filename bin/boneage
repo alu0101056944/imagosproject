@@ -1,8 +1,11 @@
 #!/usr/bin/env ruby
 
 require 'thor'
+require 'treetop'
 
 require_relative '../lib/imagosproject'
+require_relative '../lib/imagosproject/parser/grammar_methods.rb'
+require_relative '../lib/imagosproject/parser/basic_grammar.rb'
 
 # Using thor package to create a proper CLI program
 class BoneAgeCLI < Thor
@@ -23,12 +26,36 @@ class BoneAgeCLI < Thor
 
     begin
       puts "Executing file #{file_path}."
-      require(file_path)
+      if File.extname(file_path) === '.ae'
+        puts "Detected second version sintaxis."
+
+        parser = MyGrammarParser.new()
+        result = parser.parse(File.read(file_path))
+
+        if result
+          execution_script = "DSLBoneAge.new do\n" + result.value + "\nend"
+          eval(execution_script)
+        else
+          if ImagosProject.config['logging_level'] == 1
+            puts 'Program failed to read the file, something is wrong in it\'s ' +
+                'sintax.'
+          else
+            puts 'PARSER FAILURE.'
+            puts 'Failure reason: ', parser.failure_reason
+            puts 'Failure line: ', parser.failure_line
+            puts 'Failure column: ', parser.failure_column
+          end
+        end
+      else
+        puts "Detected first version sintaxis."
+        require(file_path)
+      end
     rescue Exception => e
       if ImagosProject.config['logging_level'] == 1
         puts "ERROR encountered #{e.class}\n#{e.message}"
       else
-        puts "ERROR #{e.class}: #{e.message}\n#{e.backtrace}"
+        # puts "ERROR #{e.class}: #{e.message}\n#{e.backtrace}"
+        raise e
       end
       puts 'Program to exit.'
     end

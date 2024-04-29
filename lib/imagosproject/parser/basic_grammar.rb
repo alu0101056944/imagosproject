@@ -561,30 +561,16 @@ module MyGrammar
   end
 
   module Statement21
-    def name
-      elements[2]
+    def name1
+      elements[6]
+    end
+
+    def name2
+      elements[14]
     end
 
     def number
-      elements[6]
-    end
-
-  end
-
-  module Statement22
-    def number
-      elements[2]
-    end
-
-    def name
-      elements[6]
-    end
-
-  end
-
-  module Statement23
-    def name
-      elements[6]
+      elements[18]
     end
 
   end
@@ -2384,99 +2370,97 @@ module MyGrammar
                                 end
                                 s174 << r203
                                 if r203
-                                  i205 = index
-                                  i206, s206 = index, []
                                   if (match_len = has_terminal?("GENDER", false, index))
-                                    r207 = instantiate_node(SyntaxNode,input, index...(index + match_len))
+                                    r205 = instantiate_node(SyntaxNode,input, index...(index + match_len))
                                     @index += match_len
                                   else
                                     terminal_parse_failure('"GENDER"')
-                                    r207 = nil
+                                    r205 = nil
                                   end
-                                  s206 << r207
-                                  if r207
-                                    s208, i208 = [], index
+                                  s174 << r205
+                                  if r205
+                                    s206, i206 = [], index
                                     loop do
-                                      r209 = _nt_space
-                                      if r209
-                                        s208 << r209
+                                      r207 = _nt_space
+                                      if r207
+                                        s206 << r207
                                       else
                                         break
                                       end
                                     end
-                                    if s208.empty?
-                                      @index = i208
-                                      r208 = nil
+                                    if s206.empty?
+                                      @index = i206
+                                      r206 = nil
                                     else
-                                      r208 = instantiate_node(SyntaxNode,input, i208...index, s208)
+                                      r206 = instantiate_node(SyntaxNode,input, i206...index, s206)
                                     end
-                                    s206 << r208
-                                    if r208
-                                      r210 = _nt_name
-                                      s206 << r210
-                                      if r210
-                                        s211, i211 = [], index
+                                    s174 << r206
+                                    if r206
+                                      r208 = _nt_name
+                                      s174 << r208
+                                      if r208
+                                        s209, i209 = [], index
                                         loop do
-                                          r212 = _nt_space
-                                          if r212
-                                            s211 << r212
+                                          r210 = _nt_space
+                                          if r210
+                                            s209 << r210
                                           else
                                             break
                                           end
                                         end
-                                        if s211.empty?
-                                          @index = i211
-                                          r211 = nil
+                                        if s209.empty?
+                                          @index = i209
+                                          r209 = nil
                                         else
-                                          r211 = instantiate_node(SyntaxNode,input, i211...index, s211)
+                                          r209 = instantiate_node(SyntaxNode,input, i209...index, s209)
                                         end
-                                        s206 << r211
-                                        if r211
+                                        s174 << r209
+                                        if r209
                                           if (match_len = has_terminal?("AGE", false, index))
-                                            r213 = instantiate_node(SyntaxNode,input, index...(index + match_len))
+                                            r211 = instantiate_node(SyntaxNode,input, index...(index + match_len))
                                             @index += match_len
                                           else
                                             terminal_parse_failure('"AGE"')
-                                            r213 = nil
+                                            r211 = nil
                                           end
-                                          s206 << r213
-                                          if r213
-                                            s214, i214 = [], index
+                                          s174 << r211
+                                          if r211
+                                            s212, i212 = [], index
                                             loop do
-                                              r215 = _nt_space
-                                              if r215
-                                                s214 << r215
+                                              r213 = _nt_space
+                                              if r213
+                                                s212 << r213
                                               else
                                                 break
                                               end
                                             end
-                                            if s214.empty?
-                                              @index = i214
-                                              r214 = nil
+                                            if s212.empty?
+                                              @index = i212
+                                              r212 = nil
                                             else
-                                              r214 = instantiate_node(SyntaxNode,input, i214...index, s214)
+                                              r212 = instantiate_node(SyntaxNode,input, i212...index, s212)
                                             end
-                                            s206 << r214
-                                            if r214
-                                              r216 = _nt_number
-                                              s206 << r216
-                                              if r216
-                                                s217, i217 = [], index
+                                            s174 << r212
+                                            if r212
+                                              r214 = _nt_number
+                                              s174 << r214
+                                              if r214
+                                                s215, i215 = [], index
                                                 loop do
-                                                  r218 = _nt_space
-                                                  if r218
-                                                    s217 << r218
+                                                  r216 = _nt_space
+                                                  if r216
+                                                    s215 << r216
                                                   else
                                                     break
                                                   end
                                                 end
-                                                if s217.empty?
-                                                  @index = i217
-                                                  r217 = nil
+                                                if s215.empty?
+                                                  @index = i215
+                                                  r215 = nil
                                                 else
-                                                  r217 = instantiate_node(SyntaxNode,input, i217...index, s217)
+                                                  r215 = instantiate_node(SyntaxNode,input, i215...index, s215)
                                                 end
-                                                s206 << r217
+                                                s174 << r215
                                               end
                                             end
                                           end
@@ -2484,132 +2468,6 @@ module MyGrammar
                                       end
                                     end
                                   end
-                                  if s206.last
-                                    r206 = instantiate_node(SyntaxNode,input, i206...index, s206)
-                                    r206.extend(Statement21)
-                                  else
-                                    @index = i206
-                                    r206 = nil
-                                  end
-                                  if r206
-                                    r206 = SyntaxNode.new(input, (index-1)...index) if r206 == true
-                                    r205 = r206
-                                  else
-                                    i219, s219 = index, []
-                                    if (match_len = has_terminal?("AGE", false, index))
-                                      r220 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-                                      @index += match_len
-                                    else
-                                      terminal_parse_failure('"AGE"')
-                                      r220 = nil
-                                    end
-                                    s219 << r220
-                                    if r220
-                                      s221, i221 = [], index
-                                      loop do
-                                        r222 = _nt_space
-                                        if r222
-                                          s221 << r222
-                                        else
-                                          break
-                                        end
-                                      end
-                                      if s221.empty?
-                                        @index = i221
-                                        r221 = nil
-                                      else
-                                        r221 = instantiate_node(SyntaxNode,input, i221...index, s221)
-                                      end
-                                      s219 << r221
-                                      if r221
-                                        r223 = _nt_number
-                                        s219 << r223
-                                        if r223
-                                          s224, i224 = [], index
-                                          loop do
-                                            r225 = _nt_space
-                                            if r225
-                                              s224 << r225
-                                            else
-                                              break
-                                            end
-                                          end
-                                          if s224.empty?
-                                            @index = i224
-                                            r224 = nil
-                                          else
-                                            r224 = instantiate_node(SyntaxNode,input, i224...index, s224)
-                                          end
-                                          s219 << r224
-                                          if r224
-                                            if (match_len = has_terminal?("GENDER", false, index))
-                                              r226 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-                                              @index += match_len
-                                            else
-                                              terminal_parse_failure('"GENDER"')
-                                              r226 = nil
-                                            end
-                                            s219 << r226
-                                            if r226
-                                              s227, i227 = [], index
-                                              loop do
-                                                r228 = _nt_space
-                                                if r228
-                                                  s227 << r228
-                                                else
-                                                  break
-                                                end
-                                              end
-                                              if s227.empty?
-                                                @index = i227
-                                                r227 = nil
-                                              else
-                                                r227 = instantiate_node(SyntaxNode,input, i227...index, s227)
-                                              end
-                                              s219 << r227
-                                              if r227
-                                                r229 = _nt_name
-                                                s219 << r229
-                                                if r229
-                                                  s230, i230 = [], index
-                                                  loop do
-                                                    r231 = _nt_space
-                                                    if r231
-                                                      s230 << r231
-                                                    else
-                                                      break
-                                                    end
-                                                  end
-                                                  if s230.empty?
-                                                    @index = i230
-                                                    r230 = nil
-                                                  else
-                                                    r230 = instantiate_node(SyntaxNode,input, i230...index, s230)
-                                                  end
-                                                  s219 << r230
-                                                end
-                                              end
-                                            end
-                                          end
-                                        end
-                                      end
-                                    end
-                                    if s219.last
-                                      r219 = instantiate_node(SyntaxNode,input, i219...index, s219)
-                                      r219.extend(Statement22)
-                                    else
-                                      @index = i219
-                                      r219 = nil
-                                    end
-                                    if r219
-                                      r219 = SyntaxNode.new(input, (index-1)...index) if r219 == true
-                                      r205 = r219
-                                    else
-                                      @index = i205
-                                      r205 = nil
-                                    end
-                                  end
-                                  s174 << r205
                                 end
                               end
                             end
@@ -2624,7 +2482,7 @@ module MyGrammar
           end
           if s174.last
             r174 = instantiate_node(LoadNode,input, i174...index, s174)
-            r174.extend(Statement23)
+            r174.extend(Statement21)
           else
             @index = i174
             r174 = nil
@@ -3216,12 +3074,22 @@ module MyGrammar
   end
 
   module RoiDefinition0
-    def roiMeta
-      elements[0]
+  end
+
+  module RoiDefinition1
+  end
+
+  module RoiDefinition2
+    def string
+      elements[5]
+    end
+
+    def number
+      elements[11]
     end
 
     def boneList
-      elements[1]
+      elements[17]
     end
   end
 
@@ -3231,54 +3099,6 @@ module MyGrammar
       cached = node_cache[:roiDefinition][index]
       if cached
         node_cache[:roiDefinition][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
-      return cached
-    end
-
-    i0, s0 = index, []
-    r1 = _nt_roiMeta
-    s0 << r1
-    if r1
-      r2 = _nt_boneList
-      s0 << r2
-    end
-    if s0.last
-      r0 = instantiate_node(SyntaxNode,input, i0...index, s0)
-      r0.extend(RoiDefinition0)
-    else
-      @index = i0
-      r0 = nil
-    end
-
-    node_cache[:roiDefinition][start_index] = r0
-
-    r0
-  end
-
-  module RoiMeta0
-  end
-
-  module RoiMeta1
-  end
-
-  module RoiMeta2
-    def string
-      elements[5]
-    end
-
-    def number
-      elements[11]
-    end
-
-  end
-
-  def _nt_roiMeta
-    start_index = index
-    if node_cache[:roiMeta].has_key?(index)
-      cached = node_cache[:roiMeta][index]
-      if cached
-        node_cache[:roiMeta][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
         @index = cached.interval.end
       end
       return cached
@@ -3315,7 +3135,7 @@ module MyGrammar
     end
     if s3.last
       r3 = instantiate_node(SyntaxNode,input, i3...index, s3)
-      r3.extend(RoiMeta0)
+      r3.extend(RoiDefinition0)
     else
       @index = i3
       r3 = nil
@@ -3353,7 +3173,7 @@ module MyGrammar
       end
       if s7.last
         r7 = instantiate_node(SyntaxNode,input, i7...index, s7)
-        r7.extend(RoiMeta1)
+        r7.extend(RoiDefinition1)
       else
         @index = i7
         r7 = nil
@@ -3568,6 +3388,10 @@ module MyGrammar
                                       r33 = instantiate_node(SyntaxNode,input, i33...index, s33)
                                     end
                                     s0 << r33
+                                    if r33
+                                      r35 = _nt_boneList
+                                      s0 << r35
+                                    end
                                   end
                                 end
                               end
@@ -3585,14 +3409,14 @@ module MyGrammar
       end
     end
     if s0.last
-      r0 = instantiate_node(ROIMetaNode,input, i0...index, s0)
-      r0.extend(RoiMeta2)
+      r0 = instantiate_node(ROIDefinitionNode,input, i0...index, s0)
+      r0.extend(RoiDefinition2)
     else
       @index = i0
       r0 = nil
     end
 
-    node_cache[:roiMeta][start_index] = r0
+    node_cache[:roiDefinition][start_index] = r0
 
     r0
   end

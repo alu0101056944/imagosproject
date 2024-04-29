@@ -65,7 +65,7 @@ class DSLBoneAge
   def create(*args_array, **args_hash)
     if @current_context == 'dsl_atlas'
       @current_context = nil
-      dsl_atlas.create(*args_array, **args_hash)
+      @dsl_atlas.create(*args_array, **args_hash)
     else
       raise OutOfContextError
     end

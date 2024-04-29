@@ -40,9 +40,8 @@ grammar MyGrammar
       <CompareRadiographyNode>
     /
     "LOAD" space+ ("THE" space+)? ("ATLAS" space+ / "SCORING" space+ "SYSTEM")
-      "NAMED" space+ name space+ "STARTING" space+ "WITH" space+ ("GENDER"
-          space+ name space+ "AGE" space+ number space+ / "AGE" space+ number
-          space+ "GENDER" space+ name space+) <LoadNode>
+      "NAMED" space+ name space+ "STARTING" space+ "WITH" space+ "GENDER"
+          space+ name space+ "AGE" space+ number space+ <LoadNode>
   end
 
   rule atlasRadiographyDefinition
@@ -60,13 +59,9 @@ grammar MyGrammar
   end
 
   rule roiDefinition
-    roiMeta boneList
-  end
-
-  rule roiMeta
     ("ONE" space+ / "ANOTHER" space+)? "DESCRIBED" space+ "AS" space+ string
     space+ "WITH" space+ "SCORE" space+ number space+ "COMPOSED" space+ "OF"
-    space+ <ROIMetaNode>
+    space+ boneList <ROIDefinitionNode>
   end
 
   rule boneList
