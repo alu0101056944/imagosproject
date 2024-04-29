@@ -1,0 +1,74 @@
+ # Test for keyword vs name difference
+
+grammar MyGrammar
+  rule root
+    space* statement* (space+ statement)* space* <RootNode>
+  end
+
+  rule space
+    ("\n" / " " / "\t" / "\r" / "\f" / "\v")+ <SpaceNode>
+  end
+
+  rule name
+    ([a-zA-Z] / [0-9])+ <NameLiteralNode>
+  end
+
+  rule number
+    "-"? [0-9]* ("." [0-9]+)? <NumberNode>
+  end
+
+  rule string
+    "\"" (name / space)* "\"" <StringNode>
+  end
+
+  rule statement
+    "DEFINE" space+ (("AN" / "A") space+)? name space+ "ATLAS" space+ "NAMED"
+      space+ name space+ "WITH" space+ ("THE" space+)? ("FOLLOWING" space+)?
+      ("RADIOGRAPHIES" space+)? atlasRadiographyDefinition+ <DefineAtlasNode>
+    /
+    "DEFINE" space+ (("AN" / "A") space+)? name space+ "SCORING" space+ "SYSTEM"
+      space+ "NAMED" space+ name space+ "WITH" space+ ("THE" space+)?
+      ("FOLLOWING" space+)? ("REGIONS" space+ "OF" space+ "INTEREST" space+)?
+      roiDefinition+ <DefineROINode>
+    /
+    "COMPARE" space+ ("THE" space+)? "RADIOGRAPHY" space+ 
+      ("OBSERVED" space+ "BY" space+ name space+)?
+      "USING" space+ ("THE" space+)? name space+ ("ATLAS" space+ / "SCORING" space+
+          "SYSTEM" space+ "BY" space+ ("MEAN" space+ / "SUM" space+))
+      "STARTING" space+ "WITH" space+ "GENDER" space+ name space+
+      "DEFINED" space+ "BY" space+ boneMeasurements+
+      <CompareRadiographyNode>
+    /
+    "LOAD" space+ ("THE" space+)? ("ATLAS" space+ / "SCORING" space+ "SYSTEM")
+      "NAMED" space+ name space+ "STARTING" space+ "WITH" space+ "GENDER"
+          space+ name space+ "AGE" space+ number space+ <LoadNode>
+  end
+
+  rule atlasRadiographyDefinition
+    binSelection space+ boneMeasurements+ <AtlasRadiographyDefinitionNode>
+  end
+
+  rule binSelection
+    ("ONE" space+)? "FOR" space+ "GENDER" space+ name space+ "AGE" space+ number
+    space+ "WITH" <BinSelectionNode>
+  end
+
+  rule boneMeasurements
+    ("A" space+ / "AN" space+)? name space+ "BONE" space+ "OF" space+
+    "MEASUREMENTS" space+ (measurement space+)+ <BoneMeasurementsNode>
+  end
+
+  rule roiDefinition
+    ("ONE" space+ / "ANOTHER" space+)? "DESCRIBED" space+ "AS" space+ string
+    space+ "WITH" space+ "SCORE" space+ number space+ "COMPOSED" space+ "OF"
+    space+ boneList <ROIDefinitionNode>
+  end
+
+  rule boneList
+    name space* ("," space* name space+)* <BoneListNode>
+  end
+
+  rule measurement
+    name space+ "=" space+ number <MeasurementNode>
+  end
+end
