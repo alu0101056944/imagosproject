@@ -193,8 +193,17 @@ class DSLComparison
     raise ArgumentError unless @current_context == 'dsl_comparisons'
     raise ComparisonsPendingError unless @atlas.checkedAll
 
-    puts("#{@radiography.observer_name}'s radiography is of bone age #{@best_bone_age}." ||
-         'No comparisons have been done.')
+    puts("\nResultados:\n")
+    puts("Rx carpo y mano izquierda compatible con edad ósea de " +
+        "#{@best_bone_age} años.")
+    if @best_bone_age > 18
+      puts("El informe radiológico establece edad ósea de más de 18 años.")
+    elsif @best_bone_age === 18
+      puts("El informe radiológico establece edad ósea de 18 años.")
+    else
+      puts("El informe radiológico establece edad ósea de menos de 18 años.")
+    end
+
     @context_flags[:comparisons] = false
   end
 
