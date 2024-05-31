@@ -1,0 +1,9 @@
+DEFINE AN greulichPyle ATLAS NAMED mygreulichpyleatlas
+  WITH
+    FOR GENDER male AGE 8 WITH
+    Radius BONE OF MEASUREMENTS
+    length = 2.813
+
+    FOR GENDER male AGE 9 WITH
+    Radius BONE OF MEASUREMENTS
+    length = 2.9

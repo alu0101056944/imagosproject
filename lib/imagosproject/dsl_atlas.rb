@@ -16,6 +16,9 @@
 # When a method is called, it must check if it was called in the right
 # context. Before exit it must leave the right flags on.
 #
+
+require_relative './parser/basic_grammar.rb'
+
 class DSLAtlas
   def initialize(&block)
     @atlas = nil
@@ -169,12 +172,34 @@ class DSLAtlas
 
   # May have security risks
   def loadAtlas(name)
-    file_content = File.read("atlas/#{name}.rb")
-    file_content_dump = Marshal.dump(file_content)
-    dsl_atlas_string = Marshal.load(file_content_dump)
-    foo = nil
-    binding.eval("foo = #{dsl_atlas_string}")
-    @atlas = foo.getAtlas
+    if File.exist?("atlas/#{name}.ae")
+      puts 'Detected second sintax atlas load.'
+      parser = MyGrammarParser.new()
+      result = parser.parse(File.read("atlas/#{name}.ae"))
+      if result
+        execution_script = "DSLAtlas.new do\n" + result.value + "\nend"
+        foo = nil
+        binding.eval("foo = #{execution_script}")
+        @atlas = foo.getAtlas
+      else
+        if ImagosProject.config['logging_level'] == 1
+          puts 'Program failed to read the file, something is wrong in it\'s ' +
+              'sintax.'
+        else
+          puts 'PARSER FAILURE.'
+          puts 'Failure reason: ', parser.failure_reason
+          puts 'Failure line: ', parser.failure_line
+          puts 'Failure column: ', parser.failure_column
+        end
+      end
+    else
+      file_content = File.read("atlas/#{name}.rb")
+      file_content_dump = Marshal.dump(file_content)
+      dsl_atlas_string = Marshal.load(file_content_dump)
+      foo = nil
+      binding.eval("foo = #{dsl_atlas_string}")
+      @atlas = foo.getAtlas
+    end
   end
 
   def checkFlagBalance

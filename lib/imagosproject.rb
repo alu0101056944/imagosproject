@@ -29,6 +29,8 @@ module ImagosProject
   class << self
     # Call loadConfig() first
     attr_reader :config
+    attr_accessor :doOutputToPDF
+    attr_accessor :latestBestBoneAge
 
     # Any executable should call this on initial steps
     # the parameter is for the RSpec specs for avoiding writing to the same file
