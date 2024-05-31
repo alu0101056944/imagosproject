@@ -15,6 +15,7 @@ class BoneAgeCLI < Thor
   desc 'execute PATH', 'execute a DSL file at PATH'
 
   option :config, :aliases => "-c", :desc => "Configuration file path"
+  option :output, :aliases => "-o", :desc => "Output type"
 
   # command implementation with it's parameters
   def execute(file_path)
@@ -22,6 +23,10 @@ class BoneAgeCLI < Thor
       ImagosProject.loadConfig(options[:config])
     else
       ImagosProject.loadConfig()
+    end
+
+    if options[:output] && options[:output] === 'pdf'
+      ImagosProject.doOutputToPDF = true
     end
 
     begin

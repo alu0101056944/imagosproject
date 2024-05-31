@@ -12,3 +12,4 @@ gem 'rubocop', require: false
 gem 'debug', require: false
 gem 'thor'
 gem 'treetop'
+gem 'prawn'

@@ -1,5 +1,7 @@
 # Marcos Jesús Barrios Lorenzo
 
+require 'prawn'
+
 # Check if the context is right for each
 # Dont do anything when called inside other's context
 # Implement the new methods.
@@ -202,6 +204,25 @@ class DSLComparison
       puts("El informe radiológico establece edad ósea de 18 años.")
     else
       puts("El informe radiológico establece edad ósea de menos de 18 años.")
+    end
+
+    # Temporal solution because the write pdf block does not seem to hold to @best_bone_age
+    ImagosProject.latestBestBoneAge=(@best_bone_age)
+
+    if ImagosProject.doOutputToPDF
+      puts "Writing ./informe.pdf"
+      Prawn::Document.generate("informe.pdf") do
+        text('Resultados')
+        text('Rx carpo y mano izquierda compatible con edad ósea de ' +
+          "#{ImagosProject.latestBestBoneAge} años.")
+        if ImagosProject.latestBestBoneAge > 18
+          text("El informe radiológico establece edad ósea de más de 18 años.")
+        elsif ImagosProject.latestBestBoneAge === 18
+          text("El informe radiológico establece edad ósea de 18 años.")
+        else
+          text("El informe radiológico establece edad ósea de menos de 18 años.")
+        end
+      end
     end
 
     @context_flags[:comparisons] = false
