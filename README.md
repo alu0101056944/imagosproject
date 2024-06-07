@@ -1,6 +1,6 @@
 # Bone age estimator 
 
-A program that reads a Domain Specific Language (DSL) file with a target radiography description (bone measurements) to be compared against a reference atlas of age labeled radiographies. Closest match to target results in it's labeled age being the final estimated age.
+A program that reads a Domain Specific Language (DSL) file with a target radiography description (bone measurements) to be compared against a reference atlas of age labeled radiographies. Closest match to target results in the references's labeled age being the final estimated age.
 
 # How to use
 
@@ -113,6 +113,14 @@ The output is:
 
 ![docs/estimation_result.png](docs/estimation_result.png)
 
+The output can be in pdf format by adding `-o pdf` to the command:
+
+```bash
+bin/boneage execute ./examples/new_sintax_atlas_example.ae
+```
+
+An `informe.pdf` file will then be generated with the desired output.
+
 ### List available atlas
 
 To see which atlas the program is able to find, execute:
@@ -146,3 +154,15 @@ bin/boneage help
 The result is:
 
 ![docs/help.png](docs/help.png)
+
+
+# Configuration
+
+There is an option `-c --config` that allows passing a path to a new user configuration file. It currently supports the following options:
+
+| Configuration name | Description |
+| -- | -- |
+| executable_path | Used internally on the code to know where is the executable. Especifically for unit testing. Not useful for the end user |
+| logging_level | Selects the extension of error messages. 1 = user friendly error messages, 2 = full error messages |
+
+There is also a `default_config.yml` that is the template for creating a new user configuraton file when the `config.yml` is not found. See [default_config.yml](lib/imagosproject/default_config.yml) and [config.yml](config.yml).
