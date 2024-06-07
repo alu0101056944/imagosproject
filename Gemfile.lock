@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    imagosproject (1.5.0)
+    imagosproject (1.7.0)
       thor (~> 1.2.1)
 
 GEM
