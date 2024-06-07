@@ -66,6 +66,17 @@ class BoneAgeCLI < Thor
     end
   end
 
+  desc 'list', 'list all the atlas found in the atlas folder'
+
+  def list
+    puts "Atlas found:"
+    fileNames = Dir.entries(File.expand_path('../../atlas/', __FILE__))
+    fileNames = fileNames.drop(2)
+    fileNames.each do |fileName|
+      puts "Atlas #{fileName}"
+    end
+  end
+
   # required for the operating system to exit when something goes wrong.
   def self.exit_on_failure?
     true

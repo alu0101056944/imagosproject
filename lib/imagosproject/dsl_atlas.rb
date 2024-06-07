@@ -172,10 +172,10 @@ class DSLAtlas
 
   # May have security risks
   def loadAtlas(name)
-    if File.exist?("atlas/#{name}.ae")
+    if File.exist?(File.expand_path("../../../atlas/#{name}.ae", __FILE__))
       puts 'Detected second sintax atlas load.'
       parser = MyGrammarParser.new()
-      result = parser.parse(File.read("atlas/#{name}.ae"))
+      result = parser.parse(File.read(File.expand_path("../../../atlas/#{name}.ae", __FILE__)))
       if result
         execution_script = "DSLAtlas.new do\n" + result.value + "\nend"
         foo = nil
@@ -193,7 +193,7 @@ class DSLAtlas
         end
       end
     else
-      file_content = File.read("atlas/#{name}.rb")
+      file_content = File.read(File.expand_path("../../../atlas/#{name}.rb", __FILE__))
       file_content_dump = Marshal.dump(file_content)
       dsl_atlas_string = Marshal.load(file_content_dump)
       foo = nil

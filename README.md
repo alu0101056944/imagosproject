@@ -1,45 +1,148 @@
-# Ruby gem for Bone Age Estimation DSL
+# Bone age estimator 
 
-alu0101056944
+A program that reads a Domain Specific Language (DSL) file with a target radiography description (bone measurements) to be compared against a reference atlas of age labeled radiographies. Closest match to target results in it's labeled age being the final estimated age.
 
-Marcos Jesús Barrios Lorenzo
+# How to use
 
-## Description
+## 1.- Install dependencies
 
-Domain Specific Languages are a good way to make more explicit the process of bone age estimation. This program can be used to setup bone measurements that are compared to an atlas's measurements to obtain an age estimation. The main objective is to offer an open system as opposed to black box alternatives for the Greulich Pyle, Tanner-Whitehouse methods for bone age estimation.
+Install Ruby (tested with v3.3) and then execute `bin/setup` or the following command:
 
-## Requirements
-
- - Ruby (3.3 tested)
-
-## Installation
-
-To install, execute the following CLI command:
-
-```console
+```bash
 bundle install
 ```
 
-or use the [bin/setup](bin/setup) executable:
+## 2.- Get an atlas
 
-```console
-./bin/setup
+The [atlas/](atlas/) folder must contain the atlas referenced in the DSL file with the instructions. The name of the file will be used as the atlas name. So before writing the DSL file, make sure that the atlas is available at that location.
+
+## 3.- Write the DSL file.
+
+Write a DSL file that describes the target radiography. It can be either this syntax:
+
+```ruby
+DSLBoneAge.new do
+  radiography name: 'Antonio'
+  bone :radius, length: 21
+  bone :ulna, length: 20
+
+  atlas name: :atlas_basic_example, age: 8, genre: :male
+
+  comparisons
+  compare :radiographies
+  age 9
+  compare :radiographies
+  show
+
+  radiography name: 'Marcos'
+  bone :radius, length: 20
+  bone :ulna, length: 22
+
+  comparisons
+  compare :all
+  show
+
+  scoringSystem
+
+  roi 'A', :radius, score: 5
+  roi 'B', :ulna, score: 3
+  mean
+  show
+end
+
 ```
 
-## Usage
+or this:
 
-Use the [bin/boneage](bin/boneage) executable, pass as parameter the path to the DSL file to be executed:
+```
+  COMPARE THE RADIOGRAPHY OBSERVED BY Antonio 
+  USING THE basicatlas ATLAS
+  STARTING WITH GENDER male
+  DEFINED BY
+  A radius BONE OF MEASUREMENTS
+  length = 21
 
-```console
-./bin/boneage execute ./examples/basic_example.rb 
 ```
 
-**The path must be relative, `examples/basic_example.rb` does not work, while `./examples/basic_example.rb` does**.
+## 4.- Execute the program
 
-This is what happens when the path parameter is not included:
+There is a [bin/boneage](bin/boneage) program that reads that file.
+
+### Get the age estimation
+
+Execute:
 
 ```bash
-usuario@ubuntu ~/ruby/imagosproject (dev) $ ./bin/boneage execute 
-ERROR: "boneage execute" was called with no arguments
-Usage: "boneage execute PATH"
+bin/boneage execute PATH
 ```
+
+For example, for this instruction file:
+
+```
+COMPARE THE RADIOGRAPHY OBSERVED BY Juan
+  USING THE simpleatlas ATLAS
+  STARTING WITH GENDER male
+  DEFINED BY
+  A Radius BONE OF MEASUREMENTS
+  length = 3
+
+```
+
+And given this atlas:
+
+```
+DEFINE A greulichPyle ATLAS NAMED mygreulichpyleatlas
+  WITH THE FOLLOWING RADIOGRAPHIES
+    ONE FOR GENDER male AGE 8 WITH
+    A Radius BONE OF MEASUREMENTS
+    length = 2.813
+
+    ONE FOR GENDER male AGE 9 WITH
+    A Radius BONE OF MEASUREMENTS
+    length = 2.9
+
+```
+
+When executing it:
+
+```bash
+bin/boneage execute ./examples/new_sintax_atlas_example.ae
+```
+
+The output is:
+
+![docs/estimation_result.png](docs/estimation_result.png)
+
+### List available atlas
+
+To see which atlas the program is able to find, execute:
+
+```bash
+bin/boneage list
+```
+
+For example, given these atlas:
+
+![docs/atlas_list.png](docs/atlas_list.png)
+
+When executing:
+
+```bash
+bin/boneage list
+```
+
+The result is:
+
+![docs/atlas_found.png](docs/atlas_found.png)
+
+### Help
+
+Get a list of commands available by executing:
+
+```bash
+bin/boneage help
+```
+
+The result is:
+
+![docs/help.png](docs/help.png)
